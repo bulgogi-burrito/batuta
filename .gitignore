@@ -8,8 +8,8 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
-.env
-Batuta.json
+secrets.js
 
 # macOS
 .DS_Store
+node_modules
