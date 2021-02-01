@@ -1,6 +1,62 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
 import { Camera } from "expo-camera";
+AIzaSyAZ8lxUr-w8s-dYd1qRnjLvIuCsgLHixpYAIzaSyAZ8lxUr-w8s-dYd1qRnjLvIuCsgLHixpY
+const __takePicture = async () => {
+  const photo = await this.camera.takePictureAsync({
+    base64: true,
+  });
+  console.log(photo);
+  _convertToText(photo);
+};
+
+const _convertToText = async (photo) => {
+  try {
+    let response = await fetch(
+      "https://vision.googleapis.com/v1/images:annotate?key=" + APIKEY,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          requests: [
+            {
+              image: {
+                content: photo.base64,
+              },
+              features: [
+                {
+                  type: `TEXT_DETECTION`,
+                  maxResults: 1,
+                },
+              ],
+            },
+          ],
+        }),
+      }
+    );
+    const responseJSON = await response.json();
+    if (
+      !(
+        responseJSON &&
+        responseJSON.responses &&
+        responseJSON.responses[0] &&
+        responseJSON.responses[0].fullTextAnnotation
+      )
+    ) {
+      Alert.alert(
+        "There was no readable text in your image. Please try again."
+      );
+    } else {
+      const text = responseJSON.responses[0].fullTextAnnotation.text;
+      console.log(text);
+    }
+  } catch (err) {
+    console.error("An error occurred during text conversion:", err);
+  }
+};
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -21,7 +77,13 @@ export default function App() {
   }
   return (
     <View style={styles.container}>
-      <Camera style={styles.camera} type={type}>
+      <Camera
+        style={styles.camera}
+        type={type}
+        ref={(ref) => {
+          this.camera = ref;
+        }}
+      >
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.button}
@@ -35,6 +97,36 @@ export default function App() {
           >
             <Text style={styles.text}> Flip </Text>
           </TouchableOpacity>
+          <View
+            style={{
+              position: "absolute",
+              bottom: 0,
+              flexDirection: "row",
+              flex: 1,
+              width: "100%",
+              padding: 20,
+              justifyContent: "space-between",
+            }}
+          >
+            <View
+              style={{
+                alignSelf: "center",
+                flex: 1,
+                alignItems: "center",
+              }}
+            >
+              <TouchableOpacity
+                onPress={__takePicture}
+                style={{
+                  width: 70,
+                  height: 70,
+                  bottom: 0,
+                  borderRadius: 50,
+                  backgroundColor: "#fff",
+                }}
+              />
+            </View>
+          </View>
         </View>
       </Camera>
     </View>
