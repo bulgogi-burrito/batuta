@@ -1,11 +1,12 @@
 import React from "react";
-import { Picker } from "react-native";
+import { Picker } from "@react-native-picker/picker";
 
 const setLanguage = (props) => {
-  const { initialValue, changeLang } = props;
+  const { initialValue, selectedValue ,changeLang } = props;
   return (
     <Picker
       initialValue={initialValue}
+      selectedValue={selectedValue}
       onValueChange={changeLang}
       style={{ width: "100%" }}
     >

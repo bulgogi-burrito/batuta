@@ -3,10 +3,12 @@ import React from "react";
 import { Button, Image, StyleSheet, Text, View } from "react-native";
 import { API_KEY } from "../secrets.js";
 import { connect } from "react-redux";
+import {setTranslation} from '../store/text'
+import TranslatedText from './translatedText' 
 
 const API_URL = `https://vision.googleapis.com/v1/images:annotate?key=${API_KEY}`;
 
-async function callGoogleVisionAsync(image, sourceLang, targetLang) {
+async function callGoogleVisionAsync (image, sourceLang, targetLang) {
   const body = {
     requests: [
       {
@@ -34,10 +36,11 @@ async function callGoogleVisionAsync(image, sourceLang, targetLang) {
   const result = await response.json();
   console.log("callGoogleVisionAsync -> result", result);
 
-  let text = result.responses[0].fullTextAnnotation.text;
+  const text = result.responses[0].fullTextAnnotation.text.split("\n").join(" ");
+  return text ; 
+}
 
-  text = text.split("\n").join(" ");
-
+async function callGoogleTranslate (text, sourceLang, targetLang) {
   const API_URL2 = `https://translation.googleapis.com/language/translate/v2?q=${text}&source=${sourceLang}&target=${targetLang}&format=text&key=${API_KEY}`;
 
   let response2 = await fetch(API_URL2, {
@@ -80,13 +83,11 @@ function Camera(props) {
       setImage(uri);
       setStatus("Loading...");
       try {
-        const { sourceLang, targetLang } = props;
-        const result = await callGoogleVisionAsync(
-          base64,
-          sourceLang,
-          targetLang
-        );
-        setStatus(result);
+        const { sourceLang, targetLang , setTranslation } = props;
+        const textFromImage = await callGoogleVisionAsync(base64);
+        const translatedResult = await callGoogleTranslate(textFromImage,sourceLang,targetLang)
+        setTranslation(textFromImage,translatedResult)
+        setStatus(translatedResult);
       } catch (error) {
         setStatus(`Error: ${error.message}`);
       }
@@ -95,15 +96,15 @@ function Camera(props) {
       setStatus(null);
     }
   };
-
-  return (
+  
+  if ( status ) return (<TranslatedText />)
+  else return (
     <View style={styles.container}>
       {permissions === false ? (
         <Button onPress={askPermissionsAsync} title="Ask permissions" />
       ) : (
         <>
           {image && <Image style={styles.image} source={{ uri: image }} />}
-          {status && <Text style={styles.text}>{status}</Text>}
           <Button onPress={takePictureAsync} title="Take a Picture" />
         </>
       )}
@@ -129,9 +130,15 @@ const styles = StyleSheet.create({
 
 const mapState = (state) => {
   return {
-    sourceLang: state.sourceLang,
-    targetLang: state.targetLang,
+    sourceLang: state.language.sourceLang,
+    targetLang: state.language.targetLang,
   };
 };
 
-export default connect(mapState)(Camera);
+const mapDispatch = (dispatch) => {
+  return {
+    setTranslation : (originalText,translatedText)  => dispatch(setTranslation(originalText,translatedText))
+  }
+}
+
+export default connect(mapState,mapDispatch)(Camera);

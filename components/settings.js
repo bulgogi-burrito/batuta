@@ -19,17 +19,21 @@ function GoToButton({ screenName }) {
 class Settings extends React.Component {
   render() {
     const { sourceLang, targetLang } = this.props;
+    console.log('source' , sourceLang) ; 
+    console.log('target' , targetLang) ; 
     return (
       <View>
         <Text>FROM: </Text>
         <SetLanguage
           initialValue={sourceLang}
+          selectedValue={sourceLang}
           changeLang={(language) => this.props.changeSource(language)}
           style={{ width: "100%" }}
         />
         <Text>TO: </Text>
         <SetLanguage
-          initialValue={targetLang}
+          initialValue={targetLang} 
+          selectedValue={targetLang}
           changeLang={(language) => this.props.changeTarget(language)}
           style={{ width: "100%" }}
         />
@@ -42,8 +46,8 @@ class Settings extends React.Component {
 
 const mapState = (state) => {
   return {
-    sourceLang: state.sourceLang,
-    targetLang: state.targetLang,
+    sourceLang: state.language.sourceLang,
+    targetLang: state.language.targetLang,
   };
 };
 
