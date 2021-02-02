@@ -2,10 +2,11 @@ import * as ImagePicker from "expo-image-picker";
 import React from "react";
 import { Button, Image, StyleSheet, Text, View } from "react-native";
 import { API_KEY } from "../secrets.js";
+import { connect } from "react-redux";
 
 const API_URL = `https://vision.googleapis.com/v1/images:annotate?key=${API_KEY}`;
 
-async function callGoogleVisionAsync(image) {
+async function callGoogleVisionAsync(image, sourceLang, targetLang) {
   const body = {
     requests: [
       {
@@ -37,10 +38,10 @@ async function callGoogleVisionAsync(image) {
 
   text = text.split("\n").join(" ");
 
-  const API_URL2 = `https://translation.googleapis.com/language/translate/v2?q=${text}&target=es&format=text&key=${API_KEY}`;
+  const API_URL2 = `https://translation.googleapis.com/language/translate/v2?q=${text}&source=${sourceLang}&target=${targetLang}&format=text&key=${API_KEY}`;
 
   let response2 = await fetch(API_URL2, {
-    method: "GET",
+    method: "POST",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -54,7 +55,7 @@ async function callGoogleVisionAsync(image) {
   return response2.data.translations[0].translatedText;
 }
 
-export default function App() {
+function Camera(props) {
   const [image, setImage] = React.useState(null);
   const [status, setStatus] = React.useState(null);
   const [permissions, setPermissions] = React.useState(false);
@@ -79,7 +80,12 @@ export default function App() {
       setImage(uri);
       setStatus("Loading...");
       try {
-        const result = await callGoogleVisionAsync(base64);
+        const { sourceLang, targetLang } = props;
+        const result = await callGoogleVisionAsync(
+          base64,
+          sourceLang,
+          targetLang
+        );
         setStatus(result);
       } catch (error) {
         setStatus(`Error: ${error.message}`);
@@ -120,3 +126,12 @@ const styles = StyleSheet.create({
     margin: 5,
   },
 });
+
+const mapState = (state) => {
+  return {
+    sourceLang: state.sourceLang,
+    targetLang: state.targetLang,
+  };
+};
+
+export default connect(mapState)(Camera);

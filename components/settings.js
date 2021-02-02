@@ -1,8 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Picker, View, Button } from "react-native";
+import { Picker, View, Button, Text } from "react-native";
 import { changeSourceLang, changeTargetLang } from "../store/settings";
 import Home from "./home";
+import SetLanguage from "./setLanguage";
 import { useNavigation } from "@react-navigation/native";
 
 function GoToButton({ screenName }) {
@@ -20,29 +21,19 @@ class Settings extends React.Component {
     const { sourceLang, targetLang } = this.props;
     return (
       <View>
-        <Picker
-          selectedValue={sourceLang}
-          onValueChange={(language) => {
-            this.props.changeSource(language);
-          }}
+        <Text>FROM: </Text>
+        <SetLanguage
+          initialValue={sourceLang}
+          changeLang={(language) => this.props.changeSource(language)}
           style={{ width: "100%" }}
-        >
-          <Picker.Item label="English" value="en" />
-          <Picker.Item label="Spanish" value="es" />
-          <Picker.Item label="Korean" value="ko" />
-        </Picker>
+        />
+        <Text>TO: </Text>
+        <SetLanguage
+          initialValue={targetLang}
+          changeLang={(language) => this.props.changeTarget(language)}
+          style={{ width: "100%" }}
+        />
 
-        <Picker
-          selectedValue={targetLang}
-          onValueChange={(language) => {
-            this.props.changeTarget(language);
-          }}
-          style={{ width: "100%" }}
-        >
-          <Picker.Item label="English" value="en" />
-          <Picker.Item label="Spanish" value="es" />
-          <Picker.Item label="Korean" value="ko" />
-        </Picker>
         <GoToButton screenName="Home" />
       </View>
     );
