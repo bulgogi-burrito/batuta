@@ -1,5 +1,12 @@
-import {createStore} from 'redux'
+import {combineReducers, createStore} from 'redux'
 import LanguageReducer from './settings'  
+import textReducer from './text'
 
-let store = createStore(LanguageReducer) ; 
+
+const reducer = combineReducers({
+    language : LanguageReducer , 
+    textTranslations : textReducer
+})
+
+const store = createStore(reducer) ; 
 export default store ; 
