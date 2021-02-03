@@ -1,79 +1,18 @@
 import * as ImagePicker from "expo-image-picker";
 import React from "react";
 import { Button, Image, StyleSheet, Text, View } from "react-native";
-import { API_KEY } from "../secrets.js";
 import { connect } from "react-redux";
 import {setTranslation} from '../store/text'
 import TranslatedText from './translatedText' 
-
-const API_URL = `https://vision.googleapis.com/v1/images:annotate?key=${API_KEY}`;
-
-async function callGoogleVisionAsync (image, sourceLang, targetLang) {
-  const body = {
-    requests: [
-      {
-        image: {
-          content: image,
-        },
-        features: [
-          {
-            type: "TEXT_DETECTION",
-            maxResults: 1,
-          },
-        ],
-      },
-    ],
-  };
-
-  const response = await fetch(API_URL, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body),
-  });
-  const result = await response.json();
-  console.log("callGoogleVisionAsync -> result", result);
-
-  const text = result.responses[0].fullTextAnnotation.text.split("\n").join(" ");
-  return text ; 
-}
-
-async function callGoogleTranslate (text, sourceLang, targetLang) {
-  const API_URL2 = `https://translation.googleapis.com/language/translate/v2?q=${text}&source=${sourceLang}&target=${targetLang}&format=text&key=${API_KEY}`;
-
-  let response2 = await fetch(API_URL2, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  });
-
-  response2 = await response2.json();
-  console.log(text);
-  console.log(response2);
-
-  return response2.data.translations[0].translatedText;
-}
+import { callGoogleVision , callGoogleTranslate } from './google'
+import Permissions from './permissions'
 
 function Camera(props) {
+  const {cameraPermission} = props ; 
   const [image, setImage] = React.useState(null);
   const [status, setStatus] = React.useState(null);
-  const [permissions, setPermissions] = React.useState(false);
-
-  const askPermissionsAsync = async () => {
-    let permissionResult = await ImagePicker.requestCameraPermissionsAsync();
-
-    if (permissionResult.granted === false) {
-      alert("Permission to access camera roll is required!");
-      return;
-    } else {
-      setPermissions(true);
-    }
-  };
-
+  const [result, setResult] = React.useState(null);
+  
   const takePictureAsync = async () => {
     const { cancelled, uri, base64 } = await ImagePicker.launchCameraAsync({
       base64: true,
@@ -84,24 +23,31 @@ function Camera(props) {
       setStatus("Loading...");
       try {
         const { sourceLang, targetLang , setTranslation } = props;
-        const textFromImage = await callGoogleVisionAsync(base64);
+        const textFromImage = await callGoogleVision(base64);
         const translatedResult = await callGoogleTranslate(textFromImage,sourceLang,targetLang)
-        setTranslation(textFromImage,translatedResult)
-        setStatus(translatedResult);
+        await setTranslation(textFromImage,translatedResult)
+        setResult(translatedResult) ; 
+        setStatus('Done');
       } catch (error) {
         setStatus(`Error: ${error.message}`);
       }
     } else {
       setImage(null);
       setStatus(null);
+      setResult(null); 
     }
   };
-  
-  if ( status ) return (<TranslatedText />)
+
+  if ( status === 'Loading...') return (<View> 
+    <Text>Making Translation</Text> 
+  </View>)
+  else if ( status === 'Done' && result ) return (<TranslatedText result={result}  />)
   else return (
     <View style={styles.container}>
-      {permissions === false ? (
-        <Button onPress={askPermissionsAsync} title="Ask permissions" />
+      {cameraPermission === false ? (
+         <>
+         <Permissions type={'camera'} />
+         </>
       ) : (
         <>
           {image && <Image style={styles.image} source={{ uri: image }} />}
@@ -111,6 +57,7 @@ function Camera(props) {
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -132,6 +79,7 @@ const mapState = (state) => {
   return {
     sourceLang: state.language.sourceLang,
     targetLang: state.language.targetLang,
+    cameraPermission : state.permissions.cameraPermission
   };
 };
 

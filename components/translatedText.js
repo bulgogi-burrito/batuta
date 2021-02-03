@@ -15,8 +15,15 @@ function GoToButton({ screenName }) {
 
 
 function TranslatedText (props) {
-    let {originalText, translatedText} = props ; 
-    return (
+    let {originalText, translatedText, result} = props ; 
+    console.log('original' , originalText) ; 
+    console.log('translated' , translatedText) ; 
+    console.log('result' , result) ; 
+    if ( result !== translatedText ) return (
+      <View> 
+        <Text>Loading Translation</Text> 
+      </View> )
+    else return (
         <View>
             <Text> {originalText} </Text>
             <Text>  {translatedText} </Text>
@@ -34,4 +41,4 @@ const mapState = (state) => {
     }
 } 
 
-export default connect(mapState) (TranslatedText)
+export default connect(mapState)(TranslatedText)
