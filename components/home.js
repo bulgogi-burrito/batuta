@@ -1,9 +1,5 @@
 import React from "react";
-import { connect } from "react-redux";
-import { Picker, View, Text, Touchable, Button } from "react-native";
-import { changeSourceLang, changeTargetLang } from "../store/settings";
-import Camera from "./camera";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import {  View, Text, Button } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 function GoToButton({ screenName }) {
@@ -22,6 +18,7 @@ class Home extends React.Component {
       <View>
         <Text> Home </Text>
         <GoToButton screenName="Camera" />
+        <GoToButton screenName="Settings" />
       </View>
     );
   }

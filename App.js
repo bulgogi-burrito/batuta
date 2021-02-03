@@ -1,12 +1,8 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { Provider } from "react-redux";
 import store from "./store";
-import Settings from "./components/settings";
-import Home from "./components/home";
-import Camera from "./components/camera"
-import TranslatedText from "./components/translatedText"
+import {Settings , Home , Camera , Permissions , TranslatedText } from "./components";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -16,11 +12,12 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Settings">
+        <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="Settings" component={Settings} />
           <Stack.Screen name="Camera" component={Camera} />
           <Stack.Screen name="TranslatedText" component={TranslatedText} />
+          <Stack.Screen name="Permissions" component={Permissions} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
