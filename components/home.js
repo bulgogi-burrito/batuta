@@ -18,6 +18,7 @@ class Home extends React.Component {
       <View>
         <Text> Home </Text>
         <GoToButton screenName="Camera" />
+        <GoToButton screenName="microphone" />
         <GoToButton screenName="Settings" />
       </View>
     );
