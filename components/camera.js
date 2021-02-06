@@ -3,6 +3,7 @@ import React from "react";
 import { Button, Image, StyleSheet, Text, View } from "react-native";
 import { connect } from "react-redux";
 import { setTranslation } from "../store/text";
+import { addToRecents } from "../store/recentTranslations";
 import TranslatedText from "./translatedText";
 import { callGoogleVision, callGoogleTranslate } from "./google";
 // import Permissions from './permissions'
@@ -22,7 +23,12 @@ function Camera(props) {
       setImage(uri);
       setStatus("Loading...");
       try {
-        const { sourceLang, targetLang, setTranslation } = props;
+        const {
+          sourceLang,
+          targetLang,
+          setTranslation,
+          addToRecentTranslations,
+        } = props;
         const textFromImage = await callGoogleVision(base64);
         const translatedResult = await callGoogleTranslate(
           textFromImage,
@@ -30,6 +36,15 @@ function Camera(props) {
           targetLang
         );
         await setTranslation(textFromImage, translatedResult);
+
+        // Data for recent translations & redux action for adding to store
+        const translationData = {
+          originalText: textFromImage,
+          source: sourceLang,
+          translatedText: translatedResult,
+          target: targetLang,
+        };
+        await addToRecentTranslations(translationData);
         setResult(translatedResult);
         setStatus("Done");
       } catch (error) {
@@ -95,6 +110,8 @@ const mapDispatch = (dispatch) => {
   return {
     setTranslation: (originalText, translatedText) =>
       dispatch(setTranslation(originalText, translatedText)),
+    addToRecentTranslations: (translationData) =>
+      dispatch(addToRecents(translationData)),
   };
 };
 
