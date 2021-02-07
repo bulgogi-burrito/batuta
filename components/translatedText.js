@@ -21,7 +21,7 @@ function TranslatedText(props) {
         <Text> {translatedText} </Text>
         <GoToButton screenName="Home" />
         <GoToButton screenName="Camera" />
-        <CreateFlashcard />
+        {/* <CreateFlashcard />  not working right now*/}
       </View>
     );
 }
