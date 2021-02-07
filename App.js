@@ -2,7 +2,16 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { Provider } from "react-redux";
 import store from "./store";
-import { Settings, Home, Camera, TranslatedText, AudioRecording } from "./components";
+import {
+  Settings,
+  Home,
+  Camera,
+  TranslatedText,
+  AudioRecording,
+  LandmarkCamera,
+  LandmarkScreen,
+  LandmarkMap,
+} from "./components";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -18,6 +27,9 @@ export default function App() {
           <Stack.Screen name="Camera" component={Camera} />
           <Stack.Screen name="TranslatedText" component={TranslatedText} />
           <Stack.Screen name="microphone" component={AudioRecording} />
+          <Stack.Screen name="LandmarkCamera" component={LandmarkCamera} />
+          <Stack.Screen name="LandmarkScreen" component={LandmarkScreen} />
+          <Stack.Screen name="LandmarkMap" component={LandmarkMap} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
