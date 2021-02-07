@@ -1,5 +1,5 @@
 import React from "react";
-import { Alert, Button } from "react-native";
+import { Alert, Button, View } from "react-native";
 
 const createOkButtonAlert = () =>
   Alert.alert(
@@ -9,11 +9,11 @@ const createOkButtonAlert = () =>
   );
 
 //need to pass in function to create card and send to SqlLite db to make card instance
-function CreateFlashcard() {
+const CreateFlashcard = () => {
   return (
     <View>
       <Button title={"Make flashcard"} onPress={createOkButtonAlert} />
     </View>
   );
-}
+};
 export default CreateFlashcard;
