@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { View, Text } from "react-native";
-import { GoToButton } from "./utils";
+import { GoToButton, CreateFlashcard } from "./utils";
 
 function TranslatedText(props) {
   let { originalText, translatedText, result } = props;
@@ -21,6 +21,7 @@ function TranslatedText(props) {
         <Text> {translatedText} </Text>
         <GoToButton screenName="Home" />
         <GoToButton screenName="Camera" />
+        <CreateFlashcard />
       </View>
     );
 }
