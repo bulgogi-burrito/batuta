@@ -11,6 +11,8 @@ function GoToButton({ screenName }) {
     />
   );
 }
+import { View, Text } from "react-native";
+import { GoToButton } from "./utils";
 
 class Home extends React.Component {
   render() {
@@ -21,6 +23,7 @@ class Home extends React.Component {
         <GoToButton screenName="microphone" />
         <GoToButton screenName="Settings" />
         <GoToButton screenName="LandmarkCamera" />
+        <GoToButton screenName="Recents" />
       </View>
     );
   }

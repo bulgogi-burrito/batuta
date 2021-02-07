@@ -31,7 +31,13 @@
     "react-native-screens": "~2.15.2",
     "react-native-web": "~0.13.12",
     "react-redux": "^7.2.2",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "redux": "^4.0.5",
+    "@react-native-picker/picker": "1.9.2",
+    "expo-av": "~8.7.0",
+    "expo-file-system": "~9.3.0",
+    "expo-asset": "~8.2.1",
+    "expo-sqlite": "~8.5.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
