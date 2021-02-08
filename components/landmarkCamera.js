@@ -6,10 +6,8 @@ import { setTranslation } from "../store/text";
 import TranslatedText from "./translatedText";
 import { callGoogleLandmark } from "./google";
 import LandmarkScreen from "./landmarkScreen";
-// import Permissions from './permissions'
 
 function LandmarkCamera(props) {
-  // const {cameraPermission} = props ;
   const [image, setImage] = React.useState(null);
   const [status, setStatus] = React.useState(null);
   const [result, setResult] = React.useState(null);
@@ -23,9 +21,8 @@ function LandmarkCamera(props) {
       setImage(uri);
       setStatus("Loading...");
       try {
-        const { sourceLang, targetLang, setTranslation } = props;
+        // const { sourceLang, targetLang, setTranslation } = props;
         const landmarkFromImage = await callGoogleLandmark(base64);
-        console.log("LANDMARK:", landmarkFromImage);
         setResult(landmarkFromImage);
         setStatus("Done");
       } catch (error) {
@@ -49,16 +46,8 @@ function LandmarkCamera(props) {
   else
     return (
       <View style={styles.container}>
-        {/* {cameraPermission === false ? (
-         <>
-         <Permissions type={'camera'} />
-         </>
-      ) : ( */}
-        <>
-          {image && <Image style={styles.image} source={{ uri: image }} />}
-          <Button onPress={takePictureAsync} title="Take a Picture" />
-        </>
-        {/* )} */}
+        {image && <Image style={styles.image} source={{ uri: image }} />}
+        <Button onPress={takePictureAsync} title="Take a Picture" />
       </View>
     );
 }

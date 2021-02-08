@@ -148,4 +148,6 @@ export async function callGoogleObject(image) {
   });
   const result = await response.json();
   console.log("callGoogleObject ===>", result);
+
+  return result.responses[0].localizedObjectAnnotations[0].name;
 }

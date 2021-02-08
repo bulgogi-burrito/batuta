@@ -11,6 +11,8 @@ import {
   LandmarkCamera,
   LandmarkScreen,
   LandmarkMap,
+  ObjectCamera,
+  ObjectScreen,
   RecentTranslations,
 } from "./components";
 import { NavigationContainer } from "@react-navigation/native";
@@ -31,6 +33,8 @@ export default function App() {
           <Stack.Screen name="LandmarkCamera" component={LandmarkCamera} />
           <Stack.Screen name="LandmarkScreen" component={LandmarkScreen} />
           <Stack.Screen name="LandmarkMap" component={LandmarkMap} />
+          <Stack.Screen name="ObjectCamera" component={ObjectCamera} />
+          <Stack.Screen name="ObjectScreen" component={ObjectScreen} />
           <Stack.Screen name="Recents" component={RecentTranslations} />
         </Stack.Navigator>
       </NavigationContainer>

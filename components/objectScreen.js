@@ -2,16 +2,14 @@ import React from "react";
 import { connect } from "react-redux";
 import { View, Text } from "react-native";
 import { GoToButton } from "./utils";
-import LandmarkMap from "./landmarkMap";
 
-function LandmarkScreen(props) {
-  let { landmark, latitude, longitude } = props.result;
+function ObjectScreen(props) {
+  let { result } = props;
   console.log("result", props);
   return (
     <View>
-      <Text> Landmark: {landmark} </Text>
-      <LandmarkMap result={props.result} />
-      <GoToButton screenName="LandmarkCamera" />
+      <Text> Object: {result} </Text>
+      <GoToButton screenName="ObjectCamera" />
       <GoToButton screenName="Home" />
     </View>
   );
@@ -24,4 +22,4 @@ const mapState = (state) => {
   };
 };
 
-export default connect(mapState)(LandmarkScreen);
+export default connect(mapState)(ObjectScreen);

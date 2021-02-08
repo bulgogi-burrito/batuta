@@ -6,10 +6,8 @@ import { setTranslation } from "../store/text";
 import TranslatedText from "./translatedText";
 import { callGoogleObject } from "./google";
 import ObjectScreen from "./objectScreen";
-// import Permissions from './permissions'
 
 function ObjectCamera(props) {
-  // const {cameraPermission} = props ;
   const [image, setImage] = React.useState(null);
   const [status, setStatus] = React.useState(null);
   const [result, setResult] = React.useState(null);
@@ -41,23 +39,15 @@ function ObjectCamera(props) {
   if (status === "Loading...")
     return (
       <View>
-        <Text>Finding Landmark...</Text>
+        <Text>Finding Object...</Text>
       </View>
     );
   else if (status === "Done" && result) return <ObjectScreen result={result} />;
   else
     return (
       <View style={styles.container}>
-        {/* {cameraPermission === false ? (
-         <>
-         <Permissions type={'camera'} />
-         </>
-      ) : ( */}
-        <>
-          {image && <Image style={styles.image} source={{ uri: image }} />}
-          <Button onPress={takePictureAsync} title="Take a Picture" />
-        </>
-        {/* )} */}
+        {image && <Image style={styles.image} source={{ uri: image }} />}
+        <Button onPress={takePictureAsync} title="Take a Picture" />
       </View>
     );
 }
