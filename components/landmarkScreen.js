@@ -10,6 +10,8 @@ function LandmarkScreen(props) {
   return (
     <View>
       <Text> Landmark: {landmark} </Text>
+      <Text> Latitude: {latitude} </Text>
+      <Text> Longitude: {longitude} </Text>
       <LandmarkMap result={props.result} />
       <GoToButton screenName="LandmarkCamera" />
       <GoToButton screenName="Home" />
