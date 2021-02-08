@@ -16,9 +16,6 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "config": {
-        "googleMapsApiKey": "AIzaSyDTLYpmvB9Hvtd9SiI-CGPXlMrZyh4k10U"
-      },
       "supportsTablet": true,
       "bundleIdentifier": "ibn.batuta",
       "buildNumber": "1.0.0"
