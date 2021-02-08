@@ -6,7 +6,7 @@ const DB_NAME = "batuta.db";
 const SQLITE_DIRECTORY = `${FileSystem.documentDirectory}/SQLite`;
 const LOCAL_SQLITE_DB = `${SQLITE_DIRECTORY}/${DB_NAME}`;
 
-export default class extends React.Component {
+export default class Database extends React.Component {
   constructor() {
     super();
     this.db = SQLite.openDatabase(DB_NAME);
