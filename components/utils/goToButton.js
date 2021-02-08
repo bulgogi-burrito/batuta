@@ -6,7 +6,7 @@ function GoToButton({ screenName }) {
   const navigation = useNavigation();
   return (
     <Button
-      title={`Go to ${screenName}`}
+      title={`${screenName}`}
       onPress={() => navigation.navigate(screenName)}
     />
   );
