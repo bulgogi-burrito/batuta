@@ -4,5 +4,10 @@ export { default as Camera } from "./camera";
 export { default as TranslatedText } from "./translatedText";
 export { default as Permissions } from "./permissions";
 export { default as AudioRecording } from "./audioRecording";
+export { default as LandmarkCamera } from "./landmarkCamera";
+export { default as LandmarkScreen } from "./landmarkScreen";
+export { default as LandmarkMap } from "./landmarkMap";
+export { default as ObjectCamera } from "./objectCamera";
+export { default as ObjectScreen } from "./objectScreen";
 export { default as RecentTranslations } from "./recentTranslations";
 // export {Login, Signup} from './auth-form'
