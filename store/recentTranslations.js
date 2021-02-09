@@ -6,12 +6,16 @@ export const addToRecents = (translationData) => {
 };
 
 let intialState = [];
-// objs in recent translation array look like below
-// { originalText: "",
-//   source: "",
-//   translatedText: "",
-//   target: "",
-// };
+// input object schema
+// {
+//   id:
+//   content_type: ["image", "audio", "text"]
+//   input_content:
+//   input_text:
+//   source_language:
+//   translated_text:
+//   target_language:
+// }
 
 export default function recentTranslationsReducer(state = intialState, action) {
   switch (action.type) {

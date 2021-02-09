@@ -1,9 +1,9 @@
 import React from "react";
-import { Alert, Button, View, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { db } from "../../db/index"; //importing database
-import { GoToButton } from "./index";
 
-export default function CreateFlashcard() {
+export default function CreateFlashcard(props) {
+  let { translationData } = props;
   React.useEffect(() => {
     db.transaction((tx) => {
       tx.executeSql(
@@ -12,29 +12,38 @@ export default function CreateFlashcard() {
     });
   }, []);
 
-  // const createOkButtonAlert = () => {
-  //   Alert.alert(
-  //     "Flashcard was successfully made!",
-  //     [{ text: "OK", onPress: () => console.log("OK Pressed") }],
-  //     { cancelable: false }
-  //   );
-  // };
+  const add = () => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "insert into flashcards (content_type, input_content, input_text, source_language, translated_text, target_language) values (?, ?, ?, ?, ?, ?)",
+        [
+          translationData.content_type,
+          translationData.input_content,
+          translationData.input_text,
+          translationData.source_language,
+          translationData.translated_text,
+          translationData.target_language,
+        ]
+      );
+      tx.executeSql("select * from flashcards", [], (_, { rows }) =>
+        console.log(JSON.stringify(rows))
+      );
+    });
+  };
 
   return (
     <View>
-      <TouchableOpacity>
-        <GoToButton screenName="Flashcards" />
+      <TouchableOpacity onPress={() => add()}>
+        <Text>Create Flashcard</Text>
       </TouchableOpacity>
     </View>
   );
 }
 
-// {
-//   id:
-//   content_type: ["image", "audio", "text"]
-//   input_content:
-//   input_text:
-//   source_language:
-//   translated_text:
-//   target_language:
-// }
+const mapState = (state) => {
+  return {
+    translationData: state.recentTranslations[0],
+  };
+};
+
+export default connect(mapState)(CreateFlashcard);

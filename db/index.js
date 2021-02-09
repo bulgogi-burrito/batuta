@@ -19,12 +19,12 @@ export const db = SQLite.openDatabase(name);
 //     // console.log(`Got all rows from table ${tableName} in ${DB_NAME} located at ${LOCAL_SQLITE_DB})
 //   }
 
-//   addRowToTable(tableName, item) {
+// export function addRowToTable(tableName, item) {
 //     // sql query for
 //     // {key:colValue, key:colValue,} for key in obj columString "(" + `_${key}` + `_${key}` + `_${key}`
 //     // at the end add the closing brace to the strong columnString + "_)"
 //     // do the same as above for values for obj[key] in obj columString "(" + `_${value}` + `_${value}` + `_${value}`
-//   }
+//    }
 
 //   deleteRowFromTable(tableName, item) {
 //     // sql query for

@@ -33,7 +33,4 @@ const mapState = (state) => {
   };
 };
 
-// we need something that will maptodispatch for creating flash
-// cards in this view on button press
-
 export default connect(mapState)(TranslatedText);
