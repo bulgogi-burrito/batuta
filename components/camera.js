@@ -1,11 +1,13 @@
 import * as ImagePicker from "expo-image-picker";
 import React from "react";
+import * as Permissions from "expo-permissions";
 import { Button, Image, StyleSheet, Text, View } from "react-native";
 import { connect } from "react-redux";
 import { setTranslation } from "../store/text";
 import { addToRecents } from "../store/recentTranslations";
 import TranslatedText from "./translatedText";
 import { callGoogleVision, callGoogleTranslate } from "./google";
+import { enableScreens } from "react-native-screens";
 // import Permissions from './permissions'
 
 function Camera(props) {
@@ -13,6 +15,17 @@ function Camera(props) {
   const [image, setImage] = React.useState(null);
   const [status, setStatus] = React.useState(null);
   const [result, setResult] = React.useState(null);
+  const [permissions, setPermissions] = React.useState(false);
+
+  const askPermissionsAsync = async () => {
+    let permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+    if (permissionResult.granted === false) {
+      alert("Permission to access camera roll is required!");
+      return;
+    } else {
+      setPermissions(true);
+    }
+  };
 
   const takePictureAsync = async () => {
     const { cancelled, uri, base64 } = await ImagePicker.launchCameraAsync({
@@ -63,23 +76,22 @@ function Camera(props) {
         <Text>Making Translation</Text>
       </View>
     );
-  else if (status === "Done" && result)
+  else if (status === "Done" && result) {
     return <TranslatedText result={result} />;
-  else
+  } else if (!permissions) {
     return (
-      <View style={styles.container}>
-        {/* {cameraPermission === false ? (
-         <>
-         <Permissions type={'camera'} />
-         </>
-      ) : ( */}
-        <>
-          {image && <Image style={styles.image} source={{ uri: image }} />}
-          <Button onPress={takePictureAsync} title="Take a Picture" />
-        </>
-        {/* )} */}
+      <View>
+        <Button title="Set Camera Permission" onPress={askPermissionsAsync} />
       </View>
     );
+  } else {
+    return (
+      <View style={styles.container}>
+        {image && <Image style={styles.image} source={{ uri: image }} />}
+        <Button onPress={takePictureAsync} title="Take a Picture" />
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({

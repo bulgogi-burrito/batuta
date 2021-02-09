@@ -6,9 +6,9 @@ class Home extends React.Component {
   render() {
     return (
       <View>
-        <Text> Home </Text>
+        <Text> batuta </Text>
         <GoToButton screenName="Camera" />
-        <GoToButton screenName="Microphone" />
+        {/* <GoToButton screenName="Microphone" /> */}
         <GoToButton screenName="Settings" />
         <GoToButton screenName="LandmarkCamera" />
         <GoToButton screenName="ObjectCamera" />
