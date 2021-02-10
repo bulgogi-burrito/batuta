@@ -26,6 +26,8 @@ function Home() {
         color="black"
         onPress={() => navigation.navigate("Settings")}
       />
+        <GoToButton screenName="Flashcards" />
+        <GoToButton screenName="Translate Text" />
     </View>
   );
 }

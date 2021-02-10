@@ -18,10 +18,10 @@ function RecentTranslations(props) {
         renderItem={({ item }) => (
           <TouchableOpacity>
             <Card>
-              <Text>{item.originalText}</Text>
-              <Text>{item.source}</Text>
-              <Text>{item.translatedText}</Text>
-              <Text>{item.target}</Text>
+              <Text>{item.input_text}</Text>
+              <Text>{item.source_language}</Text>
+              <Text>{item.translated_text}</Text>
+              <Text>{item.target_language}</Text>
             </Card>
           </TouchableOpacity>
         )}

@@ -53,10 +53,12 @@ function Camera(props) {
 
         // Data for recent translations & redux action for adding to store
         const translationData = {
-          originalText: textFromImage,
-          source: sourceLang,
-          translatedText: translatedResult,
-          target: targetLang,
+          content_type: "image",
+          input_content: uri,
+          input_text: textFromImage,
+          source_language: sourceLang,
+          translated_text: translatedResult,
+          target_language: targetLang,
         };
         await addToRecentTranslations(translationData);
         setResult(translatedResult);

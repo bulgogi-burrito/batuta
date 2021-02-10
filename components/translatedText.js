@@ -1,14 +1,16 @@
 import React from "react";
 import { connect } from "react-redux";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import { GoToButton, CreateFlashcard } from "./utils";
 import { Styles } from "./utils";
 
 function TranslatedText(props) {
-  let { originalText, translatedText, result } = props;
+  let { originalText, translatedText, result, translationData } = props;
   console.log("original", originalText);
   console.log("translated", translatedText);
   console.log("result", result);
+  console.log("translationData -->", translationData);
+
   if (result !== translatedText)
     return (
       <View style={Styles.container}>
@@ -31,8 +33,12 @@ function TranslatedText(props) {
           {"\n"}
         </Text>
         <GoToButton screenName="Home" />
-        {/* <GoToButton screenName="Camera" />
-        <CreateFlashcard /> */}
+        {/* <GoToButton screenName="Camera" />*/}
+        <View>
+          <TouchableOpacity onPress={() => createFlashcard(translationData)}>
+            <Text>MAKE FLASHCARD</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
 }
@@ -41,10 +47,8 @@ const mapState = (state) => {
   return {
     originalText: state.textTranslations.originalText,
     translatedText: state.textTranslations.translatedText,
+    translationData: state.recentTranslations[0],
   };
 };
-
-// we need something that will maptodispatch for creating flash
-// cards in this view on button press
 
 export default connect(mapState)(TranslatedText);

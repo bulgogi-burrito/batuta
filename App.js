@@ -13,6 +13,8 @@ import {
   ObjectCamera,
   ObjectScreen,
   RecentTranslations,
+  Flashcards,
+  InputText,
   CameraOptions,
 } from "./components";
 import { NavigationContainer } from "@react-navigation/native";
@@ -40,6 +42,8 @@ export default function App() {
           <Stack.Screen name="ObjectCamera" component={ObjectCamera} />
           <Stack.Screen name="ObjectScreen" component={ObjectScreen} />
           <Stack.Screen name="Recents" component={RecentTranslations} />
+          <Stack.Screen name="Flashcards" component={Flashcards} />
+          <Stack.Screen name="Translate Text" component={InputText} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
