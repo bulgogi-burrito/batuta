@@ -10,4 +10,5 @@ export { default as LandmarkMap } from "./landmarkMap";
 export { default as ObjectCamera } from "./objectCamera";
 export { default as ObjectScreen } from "./objectScreen";
 export { default as RecentTranslations } from "./recentTranslations";
+export { default as CameraOptions } from "./cameraOptions";
 // export {Login, Signup} from './auth-form'

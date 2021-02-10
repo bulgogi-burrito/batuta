@@ -4,33 +4,30 @@
     "slug": "batuta",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/batuta1.png",
 
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/batuta1.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#418fde"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "config": {
-        "googleMapsApiKey": "AIzaSyDTLYpmvB9Hvtd9SiI-CGPXlMrZyh4k10U"
-      },
       "supportsTablet": true,
       "bundleIdentifier": "ibn.batuta",
       "buildNumber": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/batuta1.png",
         "backgroundColor": "#FFFFFF"
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/batuta1.png"
     }
   }
 }

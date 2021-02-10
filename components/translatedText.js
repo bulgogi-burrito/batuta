@@ -1,7 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
-import { View, Text } from "react-native";
+import { View, Text, Image } from "react-native";
 import { GoToButton, CreateFlashcard } from "./utils";
+import { Styles } from "./utils";
 
 function TranslatedText(props) {
   let { originalText, translatedText, result } = props;
@@ -10,15 +11,25 @@ function TranslatedText(props) {
   console.log("result", result);
   if (result !== translatedText)
     return (
-      <View>
-        <Text>Loading Translation</Text>
+      <View style={Styles.container}>
+        <Text>Loading Translation...</Text>
       </View>
     );
   else
     return (
-      <View>
-        <Text> {originalText} </Text>
-        <Text> {translatedText} </Text>
+      <View style={Styles.container}>
+        <Image
+          style={Styles.image}
+          source={{
+            uri: props.image,
+          }}
+        />
+        <Text style={Styles.title}>
+          {"\n"}Original: {originalText}
+          {"\n"}
+          {"\n"}Translated: {translatedText}
+          {"\n"}
+        </Text>
         <GoToButton screenName="Home" />
         {/* <GoToButton screenName="Camera" />
         <CreateFlashcard /> */}

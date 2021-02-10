@@ -1,44 +1,33 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Picker, View, Button, Text } from "react-native";
+import { View } from "react-native";
 import { changeSourceLang, changeTargetLang } from "../store/settings";
-import Home from "./home";
 import SetLanguage from "./setLanguage";
-import { useNavigation } from "@react-navigation/native";
-
-function GoToButton({ screenName }) {
-  const navigation = useNavigation();
-  return (
-    <Button
-      title={`Go to ${screenName}`}
-      onPress={() => navigation.navigate(screenName)}
-    />
-  );
-}
+import { Entypo } from "@expo/vector-icons";
+import { Styles } from "./utils";
 
 class Settings extends React.Component {
   render() {
     const { sourceLang, targetLang } = this.props;
-    console.log('source' , sourceLang) ; 
-    console.log('target' , targetLang) ; 
+    console.log("source", sourceLang);
+    console.log("target", targetLang);
     return (
-      <View>
-        <Text>FROM: </Text>
+      <View style={Styles.container}>
         <SetLanguage
           initialValue={sourceLang}
           selectedValue={sourceLang}
           changeLang={(language) => this.props.changeSource(language)}
           style={{ width: "100%" }}
         />
-        <Text>TO: </Text>
+
+        <Entypo name="select-arrows" size={50} color="black" />
+
         <SetLanguage
-          initialValue={targetLang} 
+          initialValue={targetLang}
           selectedValue={targetLang}
           changeLang={(language) => this.props.changeTarget(language)}
           style={{ width: "100%" }}
         />
-
-        <GoToButton screenName="Home" />
       </View>
     );
   }
