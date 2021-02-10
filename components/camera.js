@@ -7,7 +7,7 @@ import { setTranslation } from "../store/text";
 import { addToRecents } from "../store/recentTranslations";
 import TranslatedText from "./translatedText";
 import { callGoogleVision, callGoogleTranslate } from "./google";
-import { enableScreens } from "react-native-screens";
+
 // import Permissions from './permissions'
 
 function Camera(props) {

@@ -13,6 +13,8 @@ class Home extends React.Component {
         <GoToButton screenName="LandmarkCamera" />
         <GoToButton screenName="ObjectCamera" />
         <GoToButton screenName="Recents" />
+        <GoToButton screenName="Flashcards" />
+        <GoToButton screenName="Translate Text" />
       </View>
     );
   }

@@ -11,4 +11,5 @@ export { default as ObjectCamera } from "./objectCamera";
 export { default as ObjectScreen } from "./objectScreen";
 export { default as RecentTranslations } from "./recentTranslations";
 export { default as Flashcards } from "./flashcards";
+export { default as InputText } from "./inputText";
 // export {Login, Signup} from './auth-form'

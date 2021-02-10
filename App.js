@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import { Provider } from "react-redux";
 import store from "./store";
@@ -15,6 +15,7 @@ import {
   ObjectScreen,
   RecentTranslations,
   Flashcards,
+  InputText,
 } from "./components";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -38,6 +39,7 @@ export default function App() {
           <Stack.Screen name="ObjectScreen" component={ObjectScreen} />
           <Stack.Screen name="Recents" component={RecentTranslations} />
           <Stack.Screen name="Flashcards" component={Flashcards} />
+          <Stack.Screen name="Translate Text" component={InputText} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
