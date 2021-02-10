@@ -1,8 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { View, Text, Image, TouchableOpacity } from "react-native";
-import { GoToButton, CreateFlashcard } from "./utils";
-import { Styles } from "./utils";
+import { GoToButton, createFlashcard, Styles, createAlert } from "./utils";
 
 function TranslatedText(props) {
   let { originalText, translatedText, result, translationData } = props;
@@ -35,7 +34,12 @@ function TranslatedText(props) {
         <GoToButton screenName="Home" />
         {/* <GoToButton screenName="Camera" />*/}
         <View>
-          <TouchableOpacity onPress={() => createFlashcard(translationData)}>
+          <TouchableOpacity
+            onPress={() => {
+              createFlashcard(translationData);
+              createAlert();
+            }}
+          >
             <Text>MAKE FLASHCARD</Text>
           </TouchableOpacity>
         </View>

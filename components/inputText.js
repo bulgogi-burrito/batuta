@@ -1,7 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import { View, TextInput, StyleSheet, Text } from "react-native";
-import { GoToButton, Card } from "./utils";
+import {
+  View,
+  TextInput,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+} from "react-native";
+import { GoToButton, Card, createFlashcard, createAlert } from "./utils";
 import { callGoogleTranslate } from "./google";
 import { setTranslation } from "../store/text";
 import { addToRecents } from "../store/recentTranslations";
@@ -11,7 +17,12 @@ function InputText(props) {
   const [textToTranslate, setTextToTranslate] = React.useState(null);
   const [translatedTextResult, setTranslatedTextResult] = React.useState(null);
 
-  const { sourceLang, targetLang, addToRecentTranslations } = props;
+  const {
+    sourceLang,
+    targetLang,
+    addToRecentTranslations,
+    translationData,
+  } = props;
 
   const sumbit = async (text, sourceLang, targetLang) => {
     const translatedResult = await callGoogleTranslate(
@@ -49,12 +60,27 @@ function InputText(props) {
           value={text}
         />
       </View>
-      <View>
-        <Card>
-          <Text>{textToTranslate ? textToTranslate : ""}</Text>
-          <Text>{translatedTextResult ? translatedTextResult : ""}</Text>
-        </Card>
-      </View>
+      <Card>
+        {textToTranslate && translatedTextResult ? (
+          <View>
+            <Text>{textToTranslate ? textToTranslate : ""}</Text>
+            <Text>{translatedTextResult ? translatedTextResult : ""}</Text>
+            <View>
+              <TouchableOpacity
+                onPress={() => {
+                  createFlashcard(translationData);
+                  createAlert();
+                }}
+              >
+                <Text>MAKE FLASHCARD</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        ) : (
+          <Text>Your translation result will appear here</Text>
+        )}
+      </Card>
+
       <GoToButton screenName="Home" />
     </View>
   );
@@ -66,6 +92,7 @@ const mapState = (state) => {
     targetLang: state.language.targetLang,
     originalText: state.textTranslations.originalText,
     translatedText: state.textTranslations.translatedText,
+    translationData: state.recentTranslations[0],
   };
 };
 
