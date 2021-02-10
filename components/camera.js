@@ -8,6 +8,7 @@ import { addToRecents } from "../store/recentTranslations";
 import TranslatedText from "./translatedText";
 import { callGoogleVision, callGoogleTranslate } from "./google";
 import { enableScreens } from "react-native-screens";
+import { Styles } from "./utils";
 // import Permissions from './permissions'
 
 function Camera(props) {
@@ -72,43 +73,27 @@ function Camera(props) {
 
   if (status === "Loading...")
     return (
-      <View>
-        <Text>Making Translation</Text>
+      <View style={Styles.container}>
+        <Text style={Styles.title}>Identifying Text & Translating...</Text>
       </View>
     );
   else if (status === "Done" && result) {
-    return <TranslatedText result={result} />;
+    return <TranslatedText result={result} image={image} />;
   } else if (!permissions) {
     return (
-      <View>
+      <View style={Styles.container}>
         <Button title="Set Camera Permission" onPress={askPermissionsAsync} />
       </View>
     );
   } else {
     return (
-      <View style={styles.container}>
-        {image && <Image style={styles.image} source={{ uri: image }} />}
+      <View style={Styles.container}>
+        {image && <Image style={Styles.image} source={{ uri: image }} />}
         <Button onPress={takePictureAsync} title="Take a Picture" />
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "white",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  image: {
-    width: 300,
-    height: 300,
-  },
-  text: {
-    margin: 5,
-  },
-});
 
 const mapState = (state) => {
   return {

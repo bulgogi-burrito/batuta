@@ -15,11 +15,11 @@ export default function LandmarkMap(props) {
     <View>
       <Button
         onPress={() => goToLandmark("google")}
-        title="Open Landmark in Google Maps 🗺"
+        title="Open in Google Maps"
       />
       <Button
         onPress={() => goToLandmark("apple")}
-        title="Open Landmark in Apple Maps 🗺"
+        title="Open in Apple Maps"
       />
     </View>
   );

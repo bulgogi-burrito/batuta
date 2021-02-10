@@ -1,14 +1,20 @@
 import React from "react";
 import { connect } from "react-redux";
-import { View, Text } from "react-native";
-import { GoToButton } from "./utils";
+import { View, Text, Image } from "react-native";
+import { GoToButton, Styles } from "./utils";
 
 function ObjectScreen(props) {
   let { result } = props;
   console.log("result", props);
   return (
-    <View>
-      <Text> Object: {result} </Text>
+    <View style={Styles.container}>
+      <Image
+        style={Styles.image}
+        source={{
+          uri: props.image,
+        }}
+      />
+      <Text style={Styles.title}> {result} </Text>
       <GoToButton screenName="ObjectCamera" />
       <GoToButton screenName="Home" />
     </View>

@@ -3,9 +3,9 @@ import React from "react";
 import { Button, Image, StyleSheet, Text, View } from "react-native";
 import { connect } from "react-redux";
 import { setTranslation } from "../store/text";
-import TranslatedText from "./translatedText";
 import { callGoogleLandmark } from "./google";
 import LandmarkScreen from "./landmarkScreen";
+import { Styles } from "./utils";
 
 function LandmarkCamera(props) {
   const [image, setImage] = React.useState(null);
@@ -37,36 +37,20 @@ function LandmarkCamera(props) {
 
   if (status === "Loading...")
     return (
-      <View>
-        <Text>Finding Landmark...</Text>
+      <View style={Styles.container}>
+        <Text style={Styles.title}>Finding Landmark...</Text>
       </View>
     );
   else if (status === "Done" && result)
-    return <LandmarkScreen result={result} />;
+    return <LandmarkScreen result={result} image={image} />;
   else
     return (
-      <View style={styles.container}>
-        {image && <Image style={styles.image} source={{ uri: image }} />}
+      <View style={Styles.container}>
+        {image && <Image style={Styles.image} source={{ uri: image }} />}
         <Button onPress={takePictureAsync} title="Take a Picture" />
       </View>
     );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "white",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  image: {
-    width: 300,
-    height: 300,
-  },
-  text: {
-    margin: 5,
-  },
-});
 
 const mapState = (state) => {
   return {
