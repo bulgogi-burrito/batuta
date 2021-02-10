@@ -8,12 +8,11 @@ import {
   View,
 } from "react-native";
 import Constants from "expo-constants";
-import * as SQLite from "expo-sqlite";
 import { db } from "../db/index";
 
 // continue converting this module to execute on our desired flashcards table
 // change the cols, and some logi try to edit as little as possible
-function Items({ done: doneHeading, onPressItem }) {
+function Items({ onPressItem }) {
   const [items, setItems] = React.useState(null);
 
   React.useEffect(() => {
@@ -32,19 +31,18 @@ function Items({ done: doneHeading, onPressItem }) {
 
   return (
     <View style={styles.sectionContainer}>
-      <Text style={styles.sectionHeading}>{heading}</Text>
-      {items.map(({ id, done, value }) => (
+      {items.map(({ id, input_text }) => (
         <TouchableOpacity
           key={id}
           onPress={() => onPressItem && onPressItem(id)}
           style={{
-            backgroundColor: done ? "#1c9963" : "#fff",
+            backgroundColor: "#fff",
             borderColor: "#000",
             borderWidth: 1,
             padding: 8,
           }}
         >
-          <Text style={{ color: done ? "#fff" : "#000" }}>{value}</Text>
+          <Text style={{ color: "#000" }}>{input_text}</Text>
         </TouchableOpacity>
       ))}
     </View>
@@ -58,7 +56,7 @@ export default function App() {
   React.useEffect(() => {
     db.transaction((tx) => {
       tx.executeSql(
-        "create table if not exists flashcards (id integer primary key not null, done int, value text);"
+        "create table if not exists flashcards (id integer primary key not null, content_type text, input_content text, input_text text, source_language text, translated_text text, target_language text);"
       );
     });
   }, []);
@@ -71,9 +69,7 @@ export default function App() {
 
     db.transaction(
       (tx) => {
-        tx.executeSql("insert into flashcards (done, value) values (0, ?)", [
-          text,
-        ]);
+        tx.executeSql("insert into flashcards (input_text) values (?)", [text]);
         tx.executeSql("select * from flashcards", [], (_, { rows }) =>
           console.log(JSON.stringify(rows))
         );
@@ -93,7 +89,7 @@ export default function App() {
             add(text);
             setText(null);
           }}
-          placeholder="what do you need to do?"
+          placeholder="translate text"
           style={styles.input}
           value={text}
         />
@@ -101,24 +97,10 @@ export default function App() {
       <ScrollView style={styles.listArea}>
         <Items
           key={`forceupdate-todo-${forceUpdateId}`}
-          done={false}
           onPressItem={(id) =>
             db.transaction(
               (tx) => {
-                tx.executeSql(`update items set done = 1 where id = ?;`, [id]);
-              },
-              null,
-              forceUpdate
-            )
-          }
-        />
-        <Items
-          done
-          key={`forceupdate-done-${forceUpdateId}`}
-          onPressItem={(id) =>
-            db.transaction(
-              (tx) => {
-                tx.executeSql(`delete from items where id = ?;`, [id]);
+                tx.executeSql(`update flashcards where id = ?;`, [id]);
               },
               null,
               forceUpdate
