@@ -1,18 +1,8 @@
 import React, { useState } from "react";
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import Constants from "expo-constants";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { db } from "../db/index";
-
-// continue converting this module to execute on our desired flashcards table
-// change the cols, and some logi try to edit as little as possible
-function Items({ onPressItem }) {
+import { Flashcard } from "./utils";
+function Items() {
   const [items, setItems] = React.useState(null);
 
   React.useEffect(() => {
@@ -28,28 +18,17 @@ function Items({ onPressItem }) {
   if (items === null || items.length === 0) {
     return null;
   }
-
+  const orderedLatest = [...items].reverse();
   return (
     <View style={styles.sectionContainer}>
-      {items.map(({ id, input_text }) => (
-        <TouchableOpacity
-          key={id}
-          onPress={() => onPressItem && onPressItem(id)}
-          style={{
-            backgroundColor: "#fff",
-            borderColor: "#000",
-            borderWidth: 1,
-            padding: 8,
-          }}
-        >
-          <Text style={{ color: "#000" }}>{input_text}</Text>
-        </TouchableOpacity>
+      {orderedLatest.map((flashcard) => (
+        <Flashcard flashcard={flashcard} key={flashcard.id} />
       ))}
     </View>
   );
 }
 
-export default function App() {
+export default function Flashcards() {
   const [text, setText] = React.useState(null);
   const [forceUpdate, forceUpdateId] = useForceUpdate();
 
@@ -81,32 +60,9 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>SQLite Example</Text>
-      <View style={styles.flexRow}>
-        <TextInput
-          onChangeText={(text) => setText(text)}
-          onSubmitEditing={() => {
-            add(text);
-            setText(null);
-          }}
-          placeholder="translate text"
-          style={styles.input}
-          value={text}
-        />
-      </View>
+      <Text style={styles.heading}>Your latest flashcards</Text>
       <ScrollView style={styles.listArea}>
-        <Items
-          key={`forceupdate-todo-${forceUpdateId}`}
-          onPressItem={(id) =>
-            db.transaction(
-              (tx) => {
-                tx.executeSql(`update flashcards where id = ?;`, [id]);
-              },
-              null,
-              forceUpdate
-            )
-          }
-        />
+        <Items />
       </ScrollView>
     </View>
   );
@@ -121,7 +77,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#fff",
     flex: 1,
-    paddingTop: Constants.statusBarHeight,
   },
   heading: {
     fontSize: 20,
