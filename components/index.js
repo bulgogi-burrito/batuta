@@ -12,4 +12,6 @@ export { default as ObjectScreen } from "./objectScreen";
 export { default as RecentTranslations } from "./recentTranslations";
 export { default as Flashcards } from "./flashcards";
 export { default as InputText } from "./inputText";
+export { default as CameraOptions } from "./cameraOptions";
+
 // export {Login, Signup} from './auth-form'

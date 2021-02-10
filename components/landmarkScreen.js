@@ -1,17 +1,26 @@
 import React from "react";
 import { connect } from "react-redux";
-import { View, Text } from "react-native";
-import { GoToButton } from "./utils";
+import { View, Text, Image } from "react-native";
+import { GoToButton, Styles } from "./utils";
 import LandmarkMap from "./landmarkMap";
 
 function LandmarkScreen(props) {
   let { landmark, latitude, longitude } = props.result;
-  console.log("result", props);
   return (
-    <View>
-      <Text> Landmark: {landmark} </Text>
-      <Text> Latitude: {latitude} </Text>
-      <Text> Longitude: {longitude} </Text>
+    <View style={Styles.container}>
+      <Image
+        style={Styles.image}
+        source={{
+          uri: props.image,
+        }}
+      />
+      <Text style={Styles.title}>
+        {"\n"}
+        Landmark: {landmark} {"\n"}
+        {"\n"}
+        Latitude: {latitude.toFixed(5)} {"\n"}
+        Longitude: {longitude.toFixed(5)} {"\n"}
+      </Text>
       <LandmarkMap result={props.result} />
       <GoToButton screenName="LandmarkCamera" />
       <GoToButton screenName="Home" />
