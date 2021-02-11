@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { GoToButton } from "../components/utils";
 
 function Home() {
   const navigation = useNavigation();
@@ -38,7 +39,6 @@ function Home() {
         color="black"
         onPress={() => navigation.navigate("Settings")}
       />
-    </View>
   );
 }
 

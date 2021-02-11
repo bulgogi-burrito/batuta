@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import { GoToButton, Card } from "./utils";
+import { GoToButton, Card, createAlert, createFlashcard } from "./utils";
 
 function RecentTranslations(props) {
   return (
@@ -22,6 +22,21 @@ function RecentTranslations(props) {
               <Text>{item.source_language}</Text>
               <Text>{item.translated_text}</Text>
               <Text>{item.target_language}</Text>
+              <TouchableOpacity
+                onPress={() => {
+                  createFlashcard({
+                    content_type: item.content_type,
+                    input_content: item.input_content,
+                    input_text: item.input_text,
+                    source_language: item.source_language,
+                    translated_text: item.translated_text,
+                    target_language: item.target_language,
+                  });
+                  createAlert();
+                }}
+              >
+                <Text>MAKE FLASHCARD</Text>
+              </TouchableOpacity>
             </Card>
           </TouchableOpacity>
         )}
