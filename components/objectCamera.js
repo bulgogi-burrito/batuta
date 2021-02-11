@@ -3,14 +3,15 @@ import React from "react";
 import { Button, Image, StyleSheet, Text, View } from "react-native";
 import { connect } from "react-redux";
 import { setTranslation } from "../store/text";
-import { callGoogleObject } from "./google";
+import { callGoogleObject, callGoogleTranslate } from "./google";
 import ObjectScreen from "./objectScreen";
 import { Styles } from "./utils";
 
 function ObjectCamera(props) {
   const [image, setImage] = React.useState(null);
   const [status, setStatus] = React.useState(null);
-  const [result, setResult] = React.useState(null);
+  const [sourceObj, setSource] = React.useState(null);
+  const [targetObj, setTarget] = React.useState(null);
 
   const takePictureAsync = async () => {
     const { cancelled, uri, base64 } = await ImagePicker.launchCameraAsync({
@@ -21,10 +22,24 @@ function ObjectCamera(props) {
       setImage(uri);
       setStatus("Loading...");
       try {
-        const { sourceLang, targetLang, setTranslation } = props;
-        const objectFromImage = await callGoogleObject(base64);
-        console.log("OBJECT:", objectFromImage);
-        setResult(objectFromImage);
+        const { sourceLang, targetLang } = props;
+        let sourceObject = await callGoogleObject(base64);
+        if (sourceLang !== "en") {
+          sourceObject = await callGoogleTranslate(
+            objectFromImage,
+            "en",
+            sourceLang
+          );
+        }
+
+        const targetObject = await callGoogleTranslate(
+          sourceObject,
+          sourceLang,
+          targetLang
+        );
+
+        setSource(sourceObject);
+        setTarget(targetObject);
         setStatus("Done");
       } catch (error) {
         setStatus(`Error: ${error.message}`);
@@ -32,7 +47,8 @@ function ObjectCamera(props) {
     } else {
       setImage(null);
       setStatus(null);
-      setResult(null);
+      setSource(null);
+      setTarget(null);
     }
   };
 
@@ -42,13 +58,15 @@ function ObjectCamera(props) {
         <Text style={Styles.title}>Finding Object...</Text>
       </View>
     );
-  else if (status === "Done" && result)
-    return <ObjectScreen result={result} image={image} />;
+  else if (status === "Done" && sourceObj && targetObj)
+    return (
+      <ObjectScreen sourceObj={sourceObj} targetObj={targetObj} image={image} />
+    );
   else
     return (
       <View style={Styles.container}>
         {image && <Image style={Styles.image} source={{ uri: image }} />}
-        <Button onPress={takePictureAsync} title="Take a Picture" />
+        <Button onPress={takePictureAsync} title="Identify Object" />
       </View>
     );
 }
@@ -61,11 +79,4 @@ const mapState = (state) => {
   };
 };
 
-const mapDispatch = (dispatch) => {
-  return {
-    setTranslation: (originalText, translatedText) =>
-      dispatch(setTranslation(originalText, translatedText)),
-  };
-};
-
-export default connect(mapState, mapDispatch)(ObjectCamera);
+export default connect(mapState, null)(ObjectCamera);

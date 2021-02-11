@@ -5,23 +5,24 @@ import { GoToButton, Styles } from "./utils";
 import LandmarkMap from "./landmarkMap";
 
 function LandmarkScreen(props) {
-  let { landmark, latitude, longitude } = props.result;
+  let { sourceLandmark, targetLandmark, latitude, longitude, image } = props;
   return (
     <View style={Styles.container}>
+      <Text style={Styles.title}>{sourceLandmark}</Text>
       <Image
         style={Styles.image}
         source={{
-          uri: props.image,
+          uri: image,
         }}
       />
       <Text style={Styles.title}>
-        {"\n"}
-        Landmark: {landmark} {"\n"}
-        {"\n"}
+        {targetLandmark} {"\n"}
+      </Text>
+      <Text style={Styles.title}>
         Latitude: {latitude.toFixed(5)} {"\n"}
         Longitude: {longitude.toFixed(5)} {"\n"}
       </Text>
-      <LandmarkMap result={props.result} />
+      <LandmarkMap latitude={latitude} longitude={longitude} />
       <GoToButton screenName="LandmarkCamera" />
       <GoToButton screenName="Home" />
     </View>

@@ -5,8 +5,8 @@ import openMap from "react-native-open-maps";
 export default function LandmarkMap(props) {
   const goToLandmark = (provider) => {
     openMap({
-      latitude: props.result.latitude,
-      longitude: props.result.longitude,
+      latitude: props.latitude,
+      longitude: props.longitude,
       provider,
     });
   };

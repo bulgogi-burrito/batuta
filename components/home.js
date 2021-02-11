@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { Feather } from "@expo/vector-icons";
+import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { GoToButton } from "../components/utils";
 
@@ -10,25 +10,35 @@ function Home() {
     <View style={styles.container}>
       <Feather
         name="camera"
-        size={75}
+        size={50}
         color="black"
         onPress={() => navigation.navigate("CameraOptions")}
       />
-      {/* <GoToButton screenName="Microphone" /> */}
+      <MaterialCommunityIcons
+        backgroundColor="#fff"
+        name="translate"
+        size={50}
+        color="black"
+        onPress={() => navigation.navigate("Translate Text")}
+      />
       <Feather
         name="folder"
-        size={75}
+        size={50}
         color="black"
         onPress={() => navigation.navigate("Recents")}
       />
+      <MaterialCommunityIcons
+        name="cards-outline"
+        size={50}
+        color="black"
+        onPress={() => navigation.navigate("Flashcards")}
+      />
       <Feather
         name="settings"
-        size={75}
+        size={50}
         color="black"
         onPress={() => navigation.navigate("Settings")}
       />
-      <GoToButton screenName="Flashcards" />
-      <GoToButton screenName="Translate Text" />
     </View>
   );
 }
