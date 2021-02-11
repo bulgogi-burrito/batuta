@@ -1,10 +1,10 @@
 import * as ImagePicker from "expo-image-picker";
 import React from "react";
 import { Button, Image, Text, View } from "react-native";
-import { set } from "react-native-reanimated";
 import { connect } from "react-redux";
 import { setTranslation } from "../store/text";
 import { callGoogleLandmark, callGoogleTranslate } from "./google";
+import { addToRecents } from "../store/recentTranslations";
 import LandmarkScreen from "./landmarkScreen";
 import { Styles } from "./utils";
 
@@ -25,7 +25,7 @@ function LandmarkCamera(props) {
       setImage(uri);
       setStatus("Loading...");
       try {
-        const { sourceLang, targetLang } = props;
+        const { sourceLang, targetLang, addToRecentTranslations } = props;
         let { landmark, latitude, longitude } = await callGoogleLandmark(
           base64
         );
@@ -43,6 +43,16 @@ function LandmarkCamera(props) {
           sourceLang,
           targetLang
         );
+
+        const translationData = {
+          content_type: "image",
+          input_content: uri,
+          input_text: sourceLandmark, //might need to change
+          source_language: sourceLang,
+          translated_text: targetLandmark, //might need to change
+          target_language: targetLang,
+        };
+        await addToRecentTranslations(translationData);
 
         setSource(sourceLandmark);
         setTarget(targetLandmark);
@@ -105,6 +115,8 @@ const mapDispatch = (dispatch) => {
   return {
     setTranslation: (originalText, translatedText) =>
       dispatch(setTranslation(originalText, translatedText)),
+    addToRecentTranslations: (translationData) =>
+      dispatch(addToRecents(translationData)),
   };
 };
 
