@@ -39,6 +39,7 @@ function Home() {
         color="black"
         onPress={() => navigation.navigate("Settings")}
       />
+    </View>
   );
 }
 
