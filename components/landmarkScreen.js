@@ -1,11 +1,18 @@
 import React from "react";
 import { connect } from "react-redux";
-import { View, Text, Image } from "react-native";
-import { GoToButton, Styles } from "./utils";
+import { View, Text, TouchableOpacity, Image } from "react-native";
+import { GoToButton, createFlashcard, Styles, createAlert } from "./utils";
 import LandmarkMap from "./landmarkMap";
 
 function LandmarkScreen(props) {
-  let { sourceLandmark, targetLandmark, latitude, longitude, image } = props;
+  let {
+    sourceLandmark,
+    targetLandmark,
+    latitude,
+    longitude,
+    image,
+    translationData,
+  } = props;
   return (
     <View style={Styles.container}>
       <Text style={Styles.title}>{sourceLandmark}</Text>
@@ -23,8 +30,19 @@ function LandmarkScreen(props) {
         Longitude: {longitude.toFixed(5)} {"\n"}
       </Text>
       <LandmarkMap latitude={latitude} longitude={longitude} />
+
       <GoToButton screenName="LandmarkCamera" />
       <GoToButton screenName="Home" />
+      <View>
+        <TouchableOpacity
+          onPress={() => {
+            createFlashcard(translationData);
+            createAlert();
+          }}
+        >
+          <Text>MAKE FLASHCARD</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -33,6 +51,7 @@ const mapState = (state) => {
   return {
     originalText: state.textTranslations.originalText,
     translatedText: state.textTranslations.translatedText,
+    translationData: state.recentTranslations[0],
   };
 };
 
