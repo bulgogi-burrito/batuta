@@ -1,16 +1,20 @@
 import * as ImagePicker from "expo-image-picker";
 import React from "react";
-import { Button, Image, StyleSheet, Text, View } from "react-native";
+import { Button, Image, Text, View } from "react-native";
+import { set } from "react-native-reanimated";
 import { connect } from "react-redux";
 import { setTranslation } from "../store/text";
-import { callGoogleLandmark } from "./google";
+import { callGoogleLandmark, callGoogleTranslate } from "./google";
 import LandmarkScreen from "./landmarkScreen";
 import { Styles } from "./utils";
 
 function LandmarkCamera(props) {
   const [image, setImage] = React.useState(null);
   const [status, setStatus] = React.useState(null);
-  const [result, setResult] = React.useState(null);
+  const [sourceLandmark, setSource] = React.useState(null);
+  const [targetLandmark, setTarget] = React.useState(null);
+  const [latitude, setLatitude] = React.useState(null);
+  const [longitude, setLongitude] = React.useState(null);
 
   const takePictureAsync = async () => {
     const { cancelled, uri, base64 } = await ImagePicker.launchCameraAsync({
@@ -21,9 +25,29 @@ function LandmarkCamera(props) {
       setImage(uri);
       setStatus("Loading...");
       try {
-        // const { sourceLang, targetLang, setTranslation } = props;
-        const landmarkFromImage = await callGoogleLandmark(base64);
-        setResult(landmarkFromImage);
+        const { sourceLang, targetLang } = props;
+        let { landmark, latitude, longitude } = await callGoogleLandmark(
+          base64
+        );
+        let sourceLandmark = landmark;
+        if (sourceLang !== "en") {
+          sourceLandmark = await callGoogleTranslate(
+            landmark,
+            "en",
+            sourceLang
+          );
+        }
+
+        const targetLandmark = await callGoogleTranslate(
+          sourceLandmark,
+          sourceLang,
+          targetLang
+        );
+
+        setSource(sourceLandmark);
+        setTarget(targetLandmark);
+        setLatitude(latitude);
+        setLongitude(longitude);
         setStatus("Done");
       } catch (error) {
         setStatus(`Error: ${error.message}`);
@@ -31,7 +55,10 @@ function LandmarkCamera(props) {
     } else {
       setImage(null);
       setStatus(null);
-      setResult(null);
+      setSource(null);
+      setTarget(null);
+      setLatitude(null);
+      setLongitude(null);
     }
   };
 
@@ -41,8 +68,22 @@ function LandmarkCamera(props) {
         <Text style={Styles.title}>Finding Landmark...</Text>
       </View>
     );
-  else if (status === "Done" && result)
-    return <LandmarkScreen result={result} image={image} />;
+  else if (
+    status === "Done" &&
+    sourceLandmark &&
+    targetLandmark &&
+    latitude &&
+    longitude
+  )
+    return (
+      <LandmarkScreen
+        sourceLandmark={sourceLandmark}
+        targetLandmark={targetLandmark}
+        latitude={latitude}
+        longitude={longitude}
+        image={image}
+      />
+    );
   else
     return (
       <View style={Styles.container}>

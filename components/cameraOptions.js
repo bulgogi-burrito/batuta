@@ -10,21 +10,21 @@ function CameraOptions() {
       <MaterialCommunityIcons
         backgroundColor="#fff"
         name="translate"
-        size={100}
+        size={75}
         color="black"
         onPress={() => navigation.navigate("Camera")}
       />
       <Foundation
         backgroundColor="#fff"
-        name="magnifying-glass" 
-        size={100}
+        name="magnifying-glass"
+        size={75}
         color="black"
         onPress={() => navigation.navigate("ObjectCamera")}
       />
       <MaterialCommunityIcons
         backgroundColor="#fff"
         name="image-search-outline"
-        size={100}
+        size={75}
         color="black"
         onPress={() => navigation.navigate("LandmarkCamera")}
       />
