@@ -4,8 +4,7 @@ import { Card, Styles } from "./index";
 
 export default function Flashcard({ flashcard }) {
   const [flip, setFlip] = useState(false);
-  // we need a set of tags to show the data on the front side
-  // like the input_content, input_text, maybe the language, - possibly an audio feature to speak the
+  // font has the input_content, input_text, maybe the language, - possibly an audio feature to speak the
   // the language
   // then on the otherside we want the translated_text and possibly an audio feature to speak
 

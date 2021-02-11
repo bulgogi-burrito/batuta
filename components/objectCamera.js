@@ -3,6 +3,7 @@ import React from "react";
 import { Button, Image, StyleSheet, Text, View } from "react-native";
 import { connect } from "react-redux";
 import { setTranslation } from "../store/text";
+import { addToRecents } from "../store/recentTranslations";
 import { callGoogleObject, callGoogleTranslate } from "./google";
 import ObjectScreen from "./objectScreen";
 import { Styles } from "./utils";
@@ -22,7 +23,7 @@ function ObjectCamera(props) {
       setImage(uri);
       setStatus("Loading...");
       try {
-        const { sourceLang, targetLang } = props;
+        const { sourceLang, targetLang, addToRecentTranslations } = props;
         let sourceObject = await callGoogleObject(base64);
         if (sourceLang !== "en") {
           sourceObject = await callGoogleTranslate(
@@ -38,6 +39,15 @@ function ObjectCamera(props) {
           targetLang
         );
 
+        const translationData = {
+          content_type: "image",
+          input_content: uri,
+          input_text: sourceObject,
+          source_language: sourceLang,
+          translated_text: targetObject,
+          target_language: targetLang,
+        };
+        await addToRecentTranslations(translationData);
         setSource(sourceObject);
         setTarget(targetObject);
         setStatus("Done");
@@ -78,5 +88,11 @@ const mapState = (state) => {
     cameraPermission: state.permissions.cameraPermission,
   };
 };
+const mapDispatch = (dispatch) => {
+  return {
+    addToRecentTranslations: (translationData) =>
+      dispatch(addToRecents(translationData)),
+  };
+};
 
-export default connect(mapState, null)(ObjectCamera);
+export default connect(mapState, mapDispatch)(ObjectCamera);
