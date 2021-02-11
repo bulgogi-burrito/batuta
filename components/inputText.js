@@ -11,6 +11,7 @@ import { GoToButton, Card, createFlashcard, createAlert } from "./utils";
 import { callGoogleTranslate } from "./google";
 import { setTranslation } from "../store/text";
 import { addToRecents } from "../store/recentTranslations";
+import TextToSpeech from './textToSpeech'
 
 function InputText(props) {
   const [text, setText] = React.useState(null);
@@ -45,7 +46,7 @@ function InputText(props) {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container}>  
       <Text style={styles.heading}>{sourceLang}</Text>
       <View style={styles.flexRow}>
         <TextInput
@@ -74,13 +75,16 @@ function InputText(props) {
               >
                 <Text>MAKE FLASHCARD</Text>
               </TouchableOpacity>
+              <TextToSpeech originalText={textToTranslate} translatedText={translatedTextResult} 
+            sourceLang={sourceLang}  targetLang={targetLang} />
             </View>
           </View>
         ) : (
+          <View>
           <Text>Your translation result will appear here</Text>
+          </View>
         )}
       </Card>
-
       <GoToButton screenName="Home" />
     </View>
   );

@@ -2,9 +2,10 @@ import React from "react";
 import { connect } from "react-redux";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { GoToButton, createFlashcard, Styles, createAlert } from "./utils";
+import TextToSpeech from './textToSpeech'
 
 function TranslatedText(props) {
-  let { originalText, translatedText, result, translationData } = props;
+  let { originalText, translatedText, result, translationData, targetLang, sourceLang } = props;
   console.log("original", originalText);
   console.log("translated", translatedText);
   console.log("result", result);
@@ -42,6 +43,8 @@ function TranslatedText(props) {
           >
             <Text>MAKE FLASHCARD</Text>
           </TouchableOpacity>
+          <TextToSpeech originalText={originalText} translatedText={result} 
+            sourceLang={sourceLang}  targetLang={targetLang} />
         </View>
       </View>
     );

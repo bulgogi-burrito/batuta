@@ -76,11 +76,11 @@ function Camera(props) {
   if (status === "Loading...")
     return (
       <View style={Styles.container}>
-        <Text style={Styles.title}>Identifying Text & Translating...</Text>
+        <Text style={Styles.title}>Identifying Text and Translating...</Text>
       </View>
     );
   else if (status === "Done" && result) {
-    return <TranslatedText result={result} image={image} />;
+    return <TranslatedText sourceLang={props.sourceLang} result={result} image={image} targetLang={props.targetLang} />;
   } else if (!permissions) {
     return (
       <View style={Styles.container}>
