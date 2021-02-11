@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
-import { GoToButton, createFlashcard, Styles, createAlert } from "./utils";
+import { GoToButton, createFlashcard, Styles } from "./utils";
 
 function ObjectScreen(props) {
   let { sourceObj, targetObj, image, translationData } = props;
@@ -23,7 +23,6 @@ function ObjectScreen(props) {
         <TouchableOpacity
           onPress={() => {
             createFlashcard(translationData);
-            createAlert();
           }}
         >
           <Text>MAKE FLASHCARD</Text>
