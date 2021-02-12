@@ -9,10 +9,12 @@ import TranslatedText from "./translatedText";
 import { callGoogleVision, callGoogleTranslate } from "./google";
 import { ActivityIndicator } from "react-native-paper";
 import { Styles } from "./utils";
+import { useNavigation } from "@react-navigation/native";
 // import Permissions from './permissions'
 
 function Camera(props) {
   // const {cameraPermission} = props ;
+  const navigation = useNavigation();
   const [image, setImage] = React.useState(null);
   const [status, setStatus] = React.useState(null);
   const [result, setResult] = React.useState(null);
@@ -63,6 +65,12 @@ function Camera(props) {
         await addToRecentTranslations(translationData);
         setResult(translatedResult);
         setStatus("Done");
+        navigation.navigate('TranslatedText' , {
+          sourceLang : props.sourceLang,  
+          result : translatedResult , 
+          image : uri ,
+          targetLang : props.targetLang
+        })
       } catch (error) {
         setStatus(`Error: ${error.message}`);
       }
@@ -72,7 +80,7 @@ function Camera(props) {
       setResult(null);
     }
   };
-
+  console.log(status) ; 
   if (status === "Loading...")
     return (
       <View style={Styles.container}>
@@ -88,6 +96,11 @@ function Camera(props) {
         targetLang={props.targetLang}
       />
     );
+    setImage(null);
+    setStatus(null);
+    setResult(null); 
+    // return (<View><Text>heading to Translated text Screen</Text></View> ) 
+    // <TranslatedText sourceLang={props.sourceLang} result={result} image={image} targetLang={props.targetLang} />;
   } else if (!permissions) {
     return (
       <View style={Styles.container}>
@@ -95,6 +108,7 @@ function Camera(props) {
       </View>
     );
   } else {
+    console.log(result,image,status) ; 
     return (
       <View style={Styles.container}>
         {image && <Image style={Styles.image} source={{ uri: image }} />}
