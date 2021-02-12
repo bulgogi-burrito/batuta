@@ -7,8 +7,11 @@ import { callGoogleLandmark, callGoogleTranslate } from "./google";
 import { addToRecents } from "../store/recentTranslations";
 import LandmarkScreen from "./landmarkScreen";
 import { Styles } from "./utils";
+import { useNavigation } from "@react-navigation/native";
 
 function LandmarkCamera(props) {
+  const navigation = useNavigation();
+
   const [image, setImage] = React.useState(null);
   const [status, setStatus] = React.useState(null);
   const [sourceLandmark, setSource] = React.useState(null);
@@ -59,6 +62,15 @@ function LandmarkCamera(props) {
         setLatitude(latitude);
         setLongitude(longitude);
         setStatus("Done");
+        navigation.navigate("LandmarkScreen" , {
+          sourceLandmark : sourceLandmark , 
+          targetLandmark : targetLandmark , 
+          latitude : latitude ,
+          longitude : longitude ,
+          image : uri , 
+          sourceLang : props.sourceLang ,
+          targetLang : props.targetLang 
+        }) ; 
       } catch (error) {
         setStatus(`Error: ${error.message}`);
       }
@@ -84,16 +96,14 @@ function LandmarkCamera(props) {
     targetLandmark &&
     latitude &&
     longitude
-  )
-    return (
-      <LandmarkScreen
-        sourceLandmark={sourceLandmark}
-        targetLandmark={targetLandmark}
-        latitude={latitude}
-        longitude={longitude}
-        image={image}
-      />
-    );
+  ) {
+  setImage(null);
+  setStatus(null);
+  setSource(null);
+  setTarget(null);
+  setLatitude(null);
+  setLongitude(null);
+  }
   else
     return (
       <View style={Styles.container}>
