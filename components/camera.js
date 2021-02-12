@@ -65,12 +65,12 @@ function Camera(props) {
         await addToRecentTranslations(translationData);
         setResult(translatedResult);
         setStatus("Done");
-        navigation.navigate('TranslatedText' , {
-          sourceLang : props.sourceLang,  
-          result : translatedResult , 
-          image : uri ,
-          targetLang : props.targetLang
-        })
+        navigation.navigate("TranslatedText", {
+          sourceLang: props.sourceLang,
+          result: translatedResult,
+          image: uri,
+          targetLang: props.targetLang,
+        });
       } catch (error) {
         setStatus(`Error: ${error.message}`);
       }
@@ -80,7 +80,7 @@ function Camera(props) {
       setResult(null);
     }
   };
-  console.log(status) ; 
+  console.log(status);
   if (status === "Loading...")
     return (
       <View style={Styles.container}>
@@ -88,19 +88,9 @@ function Camera(props) {
       </View>
     );
   else if (status === "Done" && result) {
-    return (
-      <TranslatedText
-        sourceLang={props.sourceLang}
-        result={result}
-        image={image}
-        targetLang={props.targetLang}
-      />
-    );
     setImage(null);
     setStatus(null);
-    setResult(null); 
-    // return (<View><Text>heading to Translated text Screen</Text></View> ) 
-    // <TranslatedText sourceLang={props.sourceLang} result={result} image={image} targetLang={props.targetLang} />;
+    setResult(null);
   } else if (!permissions) {
     return (
       <View style={Styles.container}>
@@ -108,7 +98,7 @@ function Camera(props) {
       </View>
     );
   } else {
-    console.log(result,image,status) ; 
+    console.log(result, image, status);
     return (
       <View style={Styles.container}>
         {image && <Image style={Styles.image} source={{ uri: image }} />}

@@ -19,11 +19,20 @@ import {
 import TextToSpeech from "./textToSpeech";
 
 function TranslatedText(props) {
-  let { originalText, translatedText, translationData} = props;
-  console.log('what is in props in TranslatedText' , originalText , translatedText) ;
-  const { image , result , targetLang , sourceLang } = props.route.params
-  console.log('what is in route.params in TranslatedText', result , targetLang,sourceLang )
-  console.log('info from route.params' , result , targetLang, sourceLang) ; 
+  let { originalText, translatedText, translationData } = props;
+  console.log(
+    "what is in props in TranslatedText",
+    originalText,
+    translatedText
+  );
+  const { image, result, targetLang, sourceLang } = props.route.params;
+  console.log(
+    "what is in route.params in TranslatedText",
+    result,
+    targetLang,
+    sourceLang
+  );
+  console.log("info from route.params", result, targetLang, sourceLang);
   console.log("original", originalText);
   console.log("translated", translatedText);
   console.log("result", result);
@@ -39,12 +48,7 @@ function TranslatedText(props) {
     return (
       <SafeAreaView style={Styles.container}>
         <View style={Styles.imageContainer}>
-          <Image
-            style={Styles.image}
-            source={{
-              uri: props.image,  }}
-
-          />
+          <Image style={Styles.image} source={{ image }} />
         </View>
         <Card>
           <Text style={Styles.title}>
