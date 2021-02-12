@@ -5,10 +5,12 @@ import { connect } from "react-redux";
 import { setTranslation } from "../store/text";
 import { addToRecents } from "../store/recentTranslations";
 import { callGoogleObject, callGoogleTranslate } from "./google";
-import ObjectScreen from "./objectScreen";
 import { Styles } from "./utils";
+import { useNavigation } from "@react-navigation/native";
 
 function ObjectCamera(props) {
+  const navigation = useNavigation();
+
   const [image, setImage] = React.useState(null);
   const [status, setStatus] = React.useState(null);
   const [sourceObj, setSource] = React.useState(null);
@@ -51,6 +53,13 @@ function ObjectCamera(props) {
         setSource(sourceObject);
         setTarget(targetObject);
         setStatus("Done");
+        navigation.navigate("ObjectScreen" , {
+          sourceObj : sourceObject , 
+          targetObj : targetObject ,
+          image : uri ,
+          sourceLang : sourceLang , 
+          targetLang : targetLang
+        }) 
       } catch (error) {
         setStatus(`Error: ${error.message}`);
       }
@@ -68,10 +77,12 @@ function ObjectCamera(props) {
         <Text style={Styles.title}>Finding Object...</Text>
       </View>
     );
-  else if (status === "Done" && sourceObj && targetObj)
-    return (
-      <ObjectScreen sourceObj={sourceObj} targetObj={targetObj} image={image} />
-    );
+  else if (status === "Done" && sourceObj && targetObj) {
+    setImage(null);
+    setStatus(null);
+    setSource(null);
+    setTarget(null);
+  }
   else
     return (
       <View style={Styles.container}>

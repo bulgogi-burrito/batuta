@@ -3,16 +3,19 @@ import { connect } from "react-redux";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { GoToButton, createFlashcard, Styles } from "./utils";
 import LandmarkMap from "./landmarkMap";
+import TextToSpeech from './textToSpeech'
 
 function LandmarkScreen(props) {
   let {
+    sourceLang, 
+    targetLang ,
     sourceLandmark,
     targetLandmark,
     latitude,
     longitude,
-    image,
-    translationData,
-  } = props;
+    image } = props.route.params ; 
+    let {translationData} = props
+
   return (
     <View style={Styles.container}>
       <Text style={Styles.title}>{sourceLandmark}</Text>
@@ -41,6 +44,8 @@ function LandmarkScreen(props) {
         >
           <Text>MAKE FLASHCARD</Text>
         </TouchableOpacity>
+        <TextToSpeech originalText={sourceLandmark} translatedText={targetLandmark} 
+          sourceLang={sourceLang} targetLang={targetLang} />
       </View>
     </View>
   );
