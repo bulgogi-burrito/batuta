@@ -1,7 +1,21 @@
 import React from "react";
 import { connect } from "react-redux";
-import { View, Text, Image, TouchableOpacity } from "react-native";
-import { GoToButton, createFlashcard, Styles } from "./utils";
+import { Button } from "react-native-paper";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  SafeAreaView,
+} from "react-native";
+import {
+  GoToButton,
+  MakeFlashcard,
+  Styles,
+  Card,
+  PlayTextToSpeech,
+} from "./utils";
+
 import TextToSpeech from "./textToSpeech";
 
 function TranslatedText(props) {
@@ -23,37 +37,35 @@ function TranslatedText(props) {
     );
   else
     return (
-      <View style={Styles.container}>
-        <Image
-          style={Styles.image}
-          source={{
-            uri: image,
-          }}
-        />
-        <Text style={Styles.title}>
-          {"\n"}Original: {originalText}
-          {"\n"}
-          {"\n"}Translated: {translatedText}
-          {"\n"}
-        </Text>
-        <GoToButton screenName="Home" />
-        <GoToButton screenName="Camera" />
-        <View>
-          <TouchableOpacity
-            onPress={() => {
-              createFlashcard(translationData);
-            }}
-          >
-            <Text>MAKE FLASHCARD</Text>
-          </TouchableOpacity>
-          <TextToSpeech
-            originalText={originalText}
-            translatedText={result}
-            sourceLang={sourceLang}
-            targetLang={targetLang}
+      <SafeAreaView style={Styles.container}>
+        <View style={Styles.imageContainer}>
+          <Image
+            style={Styles.image}
+            source={{
+              uri: props.image,  }}
+
           />
         </View>
-      </View>
+        <Card>
+          <Text style={Styles.title}>
+            {"\n"}
+            {"\n"}Original: {originalText}
+            {"\n"}
+          </Text>
+          <PlayTextToSpeech text={originalText} language={sourceLang} />
+          <Text style={Styles.title}>
+            {"\n"}
+            {"\n"}Translated: {translatedText}
+            {"\n"}
+          </Text>
+          <PlayTextToSpeech text={translatedText} language={targetLang} />
+        </Card>
+        <GoToButton screenName="Home" icon="home-outline" />
+        {/* <GoToButton screenName="Camera" />*/}
+        <View>
+          <MakeFlashcard data={translationData} />
+        </View>
+      </SafeAreaView>
     );
 }
 

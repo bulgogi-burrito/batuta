@@ -7,6 +7,7 @@ import { setTranslation } from "../store/text";
 import { addToRecents } from "../store/recentTranslations";
 import TranslatedText from "./translatedText";
 import { callGoogleVision, callGoogleTranslate } from "./google";
+import { ActivityIndicator } from "react-native-paper";
 import { Styles } from "./utils";
 import { useNavigation } from "@react-navigation/native";
 // import Permissions from './permissions'
@@ -83,10 +84,18 @@ function Camera(props) {
   if (status === "Loading...")
     return (
       <View style={Styles.container}>
-        <Text style={Styles.title}>Identifying Text and Translating...</Text>
+        <ActivityIndicator animating={true} color={"#418fde"} size="large" />
       </View>
     );
   else if (status === "Done" && result) {
+    return (
+      <TranslatedText
+        sourceLang={props.sourceLang}
+        result={result}
+        image={image}
+        targetLang={props.targetLang}
+      />
+    );
     setImage(null);
     setStatus(null);
     setResult(null); 

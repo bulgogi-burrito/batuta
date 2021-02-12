@@ -11,6 +11,9 @@ const Styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "bold",
   },
+  imageContainer: {
+    flex: 2,
+  },
   image: {
     width: 300,
     height: 300,

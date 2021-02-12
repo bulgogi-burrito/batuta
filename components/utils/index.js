@@ -5,3 +5,4 @@ export { default as Styles } from "./styles";
 export { default as Flashcard } from "./flashcard";
 export { default as languages } from "./languages";
 export { default as PlayTextToSpeech } from "./playTextToSpeech";
+export { default as MakeFlashcard } from "./makeFlashcard";
