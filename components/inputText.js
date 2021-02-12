@@ -7,11 +7,11 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
-import { GoToButton, Card, createFlashcard, createAlert } from "./utils";
+import { GoToButton, Card, createFlashcard, languages } from "./utils";
 import { callGoogleTranslate } from "./google";
 import { setTranslation } from "../store/text";
 import { addToRecents } from "../store/recentTranslations";
-import TextToSpeech from './textToSpeech'
+import TextToSpeech from "./textToSpeech";
 
 function InputText(props) {
   const [text, setText] = React.useState(null);
@@ -46,8 +46,8 @@ function InputText(props) {
   };
 
   return (
-    <View style={styles.container}>  
-      <Text style={styles.heading}>{sourceLang}</Text>
+    <View style={styles.container}>
+      <Text style={styles.heading}>{languages[sourceLang]}</Text>
       <View style={styles.flexRow}>
         <TextInput
           multiline={true}
@@ -65,23 +65,28 @@ function InputText(props) {
         {textToTranslate && translatedTextResult ? (
           <View>
             <Text>{textToTranslate ? textToTranslate : ""}</Text>
+            <Text>{textToTranslate ? languages[sourceLang] : ""}</Text>
             <Text>{translatedTextResult ? translatedTextResult : ""}</Text>
+            <Text>{translatedTextResult ? languages[targetLang] : ""}</Text>
             <View>
               <TouchableOpacity
                 onPress={() => {
                   createFlashcard(translationData);
-                  createAlert();
                 }}
               >
                 <Text>MAKE FLASHCARD</Text>
               </TouchableOpacity>
-              <TextToSpeech originalText={textToTranslate} translatedText={translatedTextResult} 
-            sourceLang={sourceLang}  targetLang={targetLang} />
+              <TextToSpeech
+                originalText={textToTranslate}
+                translatedText={translatedTextResult}
+                sourceLang={sourceLang}
+                targetLang={targetLang}
+              />
             </View>
           </View>
         ) : (
           <View>
-          <Text>Your translation result will appear here</Text>
+            <Text>Your translation result will appear here</Text>
           </View>
         )}
       </Card>

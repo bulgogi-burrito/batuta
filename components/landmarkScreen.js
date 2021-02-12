@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { View, Text, TouchableOpacity, Image } from "react-native";
-import { GoToButton, createFlashcard, Styles, createAlert } from "./utils";
+import { GoToButton, createFlashcard, Styles } from "./utils";
 import LandmarkMap from "./landmarkMap";
 import TextToSpeech from './textToSpeech'
 
@@ -40,7 +40,6 @@ function LandmarkScreen(props) {
         <TouchableOpacity
           onPress={() => {
             createFlashcard(translationData);
-            createAlert();
           }}
         >
           <Text>MAKE FLASHCARD</Text>

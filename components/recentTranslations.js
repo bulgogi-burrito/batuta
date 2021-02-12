@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import { GoToButton, Card, createAlert, createFlashcard } from "./utils";
+import { GoToButton, Card, createFlashcard, languages } from "./utils";
 
 function RecentTranslations(props) {
   return (
@@ -15,13 +15,14 @@ function RecentTranslations(props) {
       <FlatList
         style={{ paddingBottom: 200 }}
         data={props.translations}
+        keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <TouchableOpacity>
             <Card>
               <Text>{item.input_text}</Text>
-              <Text>{item.source_language}</Text>
+              <Text>{languages[item.source_language]}</Text>
               <Text>{item.translated_text}</Text>
-              <Text>{item.target_language}</Text>
+              <Text>{languages[item.target_language]}</Text>
               <TouchableOpacity
                 onPress={() => {
                   createFlashcard({
@@ -32,7 +33,6 @@ function RecentTranslations(props) {
                     translated_text: item.translated_text,
                     target_language: item.target_language,
                   });
-                  createAlert();
                 }}
               >
                 <Text>MAKE FLASHCARD</Text>

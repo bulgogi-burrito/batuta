@@ -1,10 +1,17 @@
 import React, { useState } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  Button,
+} from "react-native";
 import { db } from "../db/index";
 import { Flashcard } from "./utils";
-function Items() {
+function Items(props) {
   const [items, setItems] = React.useState(null);
-
+  const { onPressItem } = props;
   React.useEffect(() => {
     db.transaction((tx) => {
       tx.executeSql(
@@ -22,14 +29,23 @@ function Items() {
   return (
     <View style={styles.sectionContainer}>
       {orderedLatest.map((flashcard) => (
-        <Flashcard flashcard={flashcard} key={flashcard.id} />
+        <View>
+          <Flashcard
+            flashcard={flashcard}
+            key={flashcard.id}
+            // onPressDelete={(id) => onPressItem(id)}
+          />
+          <Button
+            title="Delete card"
+            onPress={() => onPressItem(flashcard.id)}
+          />
+        </View>
       ))}
     </View>
   );
 }
 
 export default function Flashcards() {
-  const [text, setText] = React.useState(null);
   const [forceUpdate, forceUpdateId] = useForceUpdate();
 
   React.useEffect(() => {
@@ -59,12 +75,23 @@ export default function Flashcards() {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.heading}>Your latest flashcards</Text>
       <ScrollView style={styles.listArea}>
-        <Items />
+        <Items
+          key={`forceupdate-todo-${forceUpdateId}`}
+          onPressItem={(id) =>
+            db.transaction(
+              (tx) => {
+                tx.executeSql(`delete from flashcards where id = ?;`, [id]);
+              },
+              null,
+              forceUpdate
+            )
+          }
+        />
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 
