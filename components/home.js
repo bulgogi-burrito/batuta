@@ -12,7 +12,7 @@ function Home() {
         name="camera"
         size={50}
         color="black"
-        onPress={() => navigation.navigate("CameraOptions")}
+        onPress={() => navigation.navigate("Camera Options")}
       />
       <MaterialCommunityIcons
         backgroundColor="#fff"

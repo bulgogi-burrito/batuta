@@ -1,14 +1,18 @@
 import React from "react";
-import { Button } from "react-native";
+import { Button } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
-
-function GoToButton({ screenName }) {
+// home-outline
+function GoToButton(props) {
+  const { screenName, icon } = props;
   const navigation = useNavigation();
   return (
     <Button
-      title={`${screenName}`}
+      icon={icon}
+      mode="contained"
       onPress={() => navigation.navigate(screenName)}
-    />
+    >
+      {screenName}
+    </Button>
   );
 }
 
