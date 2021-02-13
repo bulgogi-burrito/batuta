@@ -6,8 +6,23 @@ import {
   FlatList,
   TouchableOpacity,
   StyleSheet,
+  View,
 } from "react-native";
-import { GoToButton, Card, createFlashcard, languages } from "./utils";
+import {
+  Card,
+  MakeFlashcard,
+  PlayTextToSpeech,
+  languages,
+  Styles,
+} from "./utils";
+import {
+  Title,
+  Subheading,
+  Paragraph,
+  Headline,
+  Caption,
+  Divider,
+} from "react-native-paper";
 
 function RecentTranslations(props) {
   return (
@@ -19,24 +34,44 @@ function RecentTranslations(props) {
         renderItem={({ item }) => (
           <TouchableOpacity>
             <Card>
-              <Text>{item.input_text}</Text>
-              <Text>{languages[item.source_language]}</Text>
-              <Text>{item.translated_text}</Text>
-              <Text>{languages[item.target_language]}</Text>
-              <TouchableOpacity
-                onPress={() => {
-                  createFlashcard({
-                    content_type: item.content_type,
-                    input_content: item.input_content,
-                    input_text: item.input_text,
-                    source_language: item.source_language,
-                    translated_text: item.translated_text,
-                    target_language: item.target_language,
-                  });
+              <View style={Styles.translationsTopRow}>
+                <Caption>{languages[item.source_language]}</Caption>
+
+                <PlayTextToSpeech
+                  text={item.input_text}
+                  language={item.source_language}
+                />
+              </View>
+              <View style={{ marginBottom: 10 }}>
+                <Subheading>{item.input_text}</Subheading>
+              </View>
+              <Divider style={{ marginBottom: 10 }} />
+              <View style={Styles.translationsTopRow}>
+                <Caption>{languages[item.target_language]}</Caption>
+                <PlayTextToSpeech
+                  text={item.translated_text}
+                  language={item.target_language}
+                />
+              </View>
+              <View style={{ marginTop: 10, marginBottom: 10 }}>
+                <Subheading>{item.translated_text}</Subheading>
+              </View>
+              {/* <Title>Title</Title>
+              <Subheading>Subheading</Subheading>
+              <Paragraph>Paragraph</Paragraph>
+              <Headline>Headline</Headline>
+              <Caption>Caption</Caption> */}
+              <MakeFlashcard
+                mode="text"
+                data={{
+                  content_type: item.content_type,
+                  input_content: item.input_content,
+                  input_text: item.input_text,
+                  source_language: item.source_language,
+                  translated_text: item.translated_text,
+                  target_language: item.target_language,
                 }}
-              >
-                <Text>MAKE FLASHCARD</Text>
-              </TouchableOpacity>
+              />
             </Card>
           </TouchableOpacity>
         )}
@@ -50,8 +85,5 @@ const mapState = (state) => {
     translations: state.recentTranslations,
   };
 };
-
-// we need something that will maptodispatch for creating flash
-// cards in this view on button press
 
 export default connect(mapState)(RecentTranslations);

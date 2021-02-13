@@ -5,13 +5,27 @@ import {
   TextInput,
   StyleSheet,
   Text,
-  TouchableOpacity,
+  TouchableWithoutFeedback,
+  Keyboard,
+  SafeAreaView,
 } from "react-native";
-import { GoToButton, Card, createFlashcard, languages } from "./utils";
+import { Subheading, Title, Caption, Divider } from "react-native-paper";
+import {
+  Styles,
+  Card,
+  MakeFlashcard,
+  PlayTextToSpeech,
+  languages,
+} from "./utils";
 import { callGoogleTranslate } from "./google";
 import { setTranslation } from "../store/text";
 import { addToRecents } from "../store/recentTranslations";
-import TextToSpeech from "./textToSpeech";
+
+const DismissKeyboard = ({ children }) => (
+  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    {children}
+  </TouchableWithoutFeedback>
+);
 
 function InputText(props) {
   const [text, setText] = React.useState(null);
@@ -46,52 +60,50 @@ function InputText(props) {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.heading}>{languages[sourceLang]}</Text>
-      <View style={styles.flexRow}>
-        <TextInput
-          multiline={true}
-          onChangeText={(text) => setText(text)}
-          onSubmitEditing={() => {
-            setText(null);
-            sumbit(text, sourceLang, targetLang);
-          }}
-          placeholder="Translate some text"
-          style={styles.input}
-          value={text}
-        />
-      </View>
+    <SafeAreaView style={styles.container}>
+      <DismissKeyboard>
+        <View style={styles.card}>
+          <Title style={{ paddingLeft: 20, paddingTop: 8 }}>
+            {languages[sourceLang]}
+          </Title>
+          <View style={styles.flexRow}>
+            <TextInput
+              multiline={true}
+              onChangeText={(text) => setText(text)}
+              onSubmitEditing={() => {
+                setText(null);
+                sumbit(text, sourceLang, targetLang);
+              }}
+              placeholder="Translate some text"
+              style={styles.input}
+              value={text}
+            />
+          </View>
+        </View>
+      </DismissKeyboard>
       <Card>
-        {textToTranslate && translatedTextResult ? (
-          <View>
-            <Text>{textToTranslate ? textToTranslate : ""}</Text>
-            <Text>{textToTranslate ? languages[sourceLang] : ""}</Text>
-            <Text>{translatedTextResult ? translatedTextResult : ""}</Text>
-            <Text>{translatedTextResult ? languages[targetLang] : ""}</Text>
-            <View>
-              <TouchableOpacity
-                onPress={() => {
-                  createFlashcard(translationData);
-                }}
-              >
-                <Text>MAKE FLASHCARD</Text>
-              </TouchableOpacity>
-              <TextToSpeech
-                originalText={textToTranslate}
-                translatedText={translatedTextResult}
-                sourceLang={sourceLang}
-                targetLang={targetLang}
-              />
-            </View>
-          </View>
-        ) : (
-          <View>
-            <Text>Your translation result will appear here</Text>
-          </View>
-        )}
+        <View style={Styles.translationsTopRow}>
+          <Caption>{languages[sourceLang]}</Caption>
+
+          <PlayTextToSpeech text={textToTranslate} language={sourceLang} />
+        </View>
+        <View style={{ marginBottom: 10 }}>
+          <Subheading>{textToTranslate ? textToTranslate : ""}</Subheading>
+        </View>
+        <Divider style={{ marginBottom: 20 }} />
+        <View style={Styles.translationsTopRow}>
+          <Caption>{languages[targetLang]}</Caption>
+          <PlayTextToSpeech text={translatedTextResult} language={targetLang} />
+        </View>
+        <View style={{ marginTop: 10, marginBottom: 40 }}>
+          <Subheading>
+            {translatedTextResult ? translatedTextResult : ""}
+          </Subheading>
+        </View>
+
+        <MakeFlashcard mode="contained" data={translationData} />
       </Card>
-      <GoToButton screenName="Home" />
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -121,21 +133,28 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     flex: 1,
   },
-  heading: {
-    fontSize: 20,
-    fontWeight: "bold",
-    textAlign: "left",
-  },
   flexRow: {
     flexDirection: "row",
   },
   input: {
     borderColor: "#4630eb",
+    backgroundColor: "#ECECEC",
     borderRadius: 4,
     borderWidth: 1,
     flex: 1,
     height: 80,
     margin: 16,
     padding: 8,
+  },
+  card: {
+    borderRadius: 6,
+    elevation: 3,
+    backgroundColor: "#fff",
+    shadowOffset: { width: 1, height: 1 },
+    shadowColor: "#333",
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    marginHorizontal: 6,
+    marginVertical: 6,
   },
 });

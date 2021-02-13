@@ -1,22 +1,23 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Button } from "react-native-paper";
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  SafeAreaView,
-} from "react-native";
+import { View, Text, Image, SafeAreaView } from "react-native";
 import {
   GoToButton,
   MakeFlashcard,
   Styles,
   Card,
   PlayTextToSpeech,
+  languages,
 } from "./utils";
-
-import TextToSpeech from "./textToSpeech";
+import {
+  Title,
+  Subheading,
+  Paragraph,
+  Headline,
+  Caption,
+  Divider,
+} from "react-native-paper";
 
 function TranslatedText(props) {
   let { originalText, translatedText, translationData } = props;
@@ -46,28 +47,32 @@ function TranslatedText(props) {
     );
   else
     return (
-      <SafeAreaView style={Styles.container}>
+      <SafeAreaView style={Styles.resultContainer}>
         <View style={Styles.imageContainer}>
-          <Image style={Styles.image} source={{ image }} />
+          <Image style={Styles.image} source={{ uri: image }} />
         </View>
-        <Card>
-          <Text style={Styles.title}>
-            {"\n"}
-            {"\n"}Original: {originalText}
-            {"\n"}
-          </Text>
-          <PlayTextToSpeech text={originalText} language={sourceLang} />
-          <Text style={Styles.title}>
-            {"\n"}
-            {"\n"}Translated: {translatedText}
-            {"\n"}
-          </Text>
-          <PlayTextToSpeech text={translatedText} language={targetLang} />
-        </Card>
-        <GoToButton screenName="Home" icon="home-outline" />
-        {/* <GoToButton screenName="Camera" />*/}
-        <View>
-          <MakeFlashcard data={translationData} />
+        <View style={Styles.contentContainer}>
+          <Card>
+            <View style={Styles.translationsTopRow}>
+              <Subheading>{`Original (${sourceLang})`}</Subheading>
+              <PlayTextToSpeech text={originalText} language={sourceLang} />
+            </View>
+            <View style={{ marginTop: 6, marginBottom: 24 }}>
+              <Title>{originalText}</Title>
+            </View>
+
+            <View style={Styles.translationsTopRow}>
+              <Subheading>{`Translated (${targetLang})`}</Subheading>
+              <PlayTextToSpeech text={translatedText} language={targetLang} />
+            </View>
+            <View style={{ marginTop: 6, marginBottom: 40 }}>
+              <Title>{translatedText}</Title>
+            </View>
+          </Card>
+          <View style={Styles.translatedTextBottom}>
+            <MakeFlashcard mode="contained" data={translationData} />
+            <GoToButton screenName="Home" icon="home-outline" />
+          </View>
         </View>
       </SafeAreaView>
     );
