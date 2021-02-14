@@ -20,6 +20,7 @@ import {
 import { callGoogleTranslate } from "./google";
 import { setTranslation } from "../store/text";
 import { addToRecents } from "../store/recentTranslations";
+import { ScrollView } from "react-native-gesture-handler";
 
 const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -62,47 +63,52 @@ function InputText(props) {
   return (
     <SafeAreaView style={styles.container}>
       <DismissKeyboard>
-        <View style={styles.card}>
-          <Title style={{ paddingLeft: 20, paddingTop: 8 }}>
-            {languages[sourceLang]}
-          </Title>
-          <View style={styles.flexRow}>
-            <TextInput
-              multiline={true}
-              onChangeText={(text) => setText(text)}
-              onSubmitEditing={() => {
-                setText(null);
-                sumbit(text, sourceLang, targetLang);
-              }}
-              placeholder="Translate some text"
-              style={styles.input}
-              value={text}
-            />
+        <ScrollView>
+          <View style={styles.card}>
+            <Title style={{ paddingLeft: 20, paddingTop: 8 }}>
+              {languages[sourceLang]}
+            </Title>
+            <View style={styles.flexRow}>
+              <TextInput
+                multiline={true}
+                onChangeText={(text) => setText(text)}
+                onSubmitEditing={() => {
+                  setText(null);
+                  sumbit(text, sourceLang, targetLang);
+                }}
+                placeholder="Translate some text"
+                style={styles.input}
+                value={text}
+              />
+            </View>
           </View>
-        </View>
+          <Card>
+            <View style={Styles.translationsTopRow}>
+              <Caption>{languages[sourceLang]}</Caption>
+
+              <PlayTextToSpeech text={textToTranslate} language={sourceLang} />
+            </View>
+            <View style={{ marginBottom: 10 }}>
+              <Subheading>{textToTranslate ? textToTranslate : ""}</Subheading>
+            </View>
+            <Divider style={{ marginBottom: 20 }} />
+            <View style={Styles.translationsTopRow}>
+              <Caption>{languages[targetLang]}</Caption>
+              <PlayTextToSpeech
+                text={translatedTextResult}
+                language={targetLang}
+              />
+            </View>
+            <View style={{ marginTop: 10, marginBottom: 40 }}>
+              <Subheading>
+                {translatedTextResult ? translatedTextResult : ""}
+              </Subheading>
+            </View>
+
+            <MakeFlashcard mode="contained" data={translationData} />
+          </Card>
+        </ScrollView>
       </DismissKeyboard>
-      <Card>
-        <View style={Styles.translationsTopRow}>
-          <Caption>{languages[sourceLang]}</Caption>
-
-          <PlayTextToSpeech text={textToTranslate} language={sourceLang} />
-        </View>
-        <View style={{ marginBottom: 10 }}>
-          <Subheading>{textToTranslate ? textToTranslate : ""}</Subheading>
-        </View>
-        <Divider style={{ marginBottom: 20 }} />
-        <View style={Styles.translationsTopRow}>
-          <Caption>{languages[targetLang]}</Caption>
-          <PlayTextToSpeech text={translatedTextResult} language={targetLang} />
-        </View>
-        <View style={{ marginTop: 10, marginBottom: 40 }}>
-          <Subheading>
-            {translatedTextResult ? translatedTextResult : ""}
-          </Subheading>
-        </View>
-
-        <MakeFlashcard mode="contained" data={translationData} />
-      </Card>
     </SafeAreaView>
   );
 }

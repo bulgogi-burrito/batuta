@@ -1,23 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Button } from "react-native-paper";
-import { View, Text, Image, SafeAreaView } from "react-native";
+import { View, Text, Image, SafeAreaView, ScrollView } from "react-native";
 import {
   GoToButton,
   MakeFlashcard,
   Styles,
   Card,
   PlayTextToSpeech,
-  languages,
 } from "./utils";
-import {
-  Title,
-  Subheading,
-  Paragraph,
-  Headline,
-  Caption,
-  Divider,
-} from "react-native-paper";
+import { Title, Subheading, Divider } from "react-native-paper";
 
 function TranslatedText(props) {
   let { originalText, translatedText, translationData } = props;
@@ -57,17 +48,17 @@ function TranslatedText(props) {
               <Subheading>{`Original (${sourceLang})`}</Subheading>
               <PlayTextToSpeech text={originalText} language={sourceLang} />
             </View>
-            <View style={{ marginTop: 6, marginBottom: 24 }}>
-              <Title>{originalText}</Title>
-            </View>
+            <ScrollView style={Styles.originalTextTranslation}>
+              <Title style={{ color: "gray" }}>{originalText}</Title>
+            </ScrollView>
 
             <View style={Styles.translationsTopRow}>
               <Subheading>{`Translated (${targetLang})`}</Subheading>
               <PlayTextToSpeech text={translatedText} language={targetLang} />
             </View>
-            <View style={{ marginTop: 6, marginBottom: 40 }}>
+            <ScrollView style={Styles.translatedTextTranslation}>
               <Title>{translatedText}</Title>
-            </View>
+            </ScrollView>
           </Card>
           <View style={Styles.translatedTextBottom}>
             <MakeFlashcard mode="contained" data={translationData} />

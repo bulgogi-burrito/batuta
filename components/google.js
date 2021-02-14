@@ -1,3 +1,4 @@
+import { Alert } from "react-native";
 import { API_KEY } from "../secrets.js";
 
 export async function callGoogleVision(image) {
@@ -18,21 +19,26 @@ export async function callGoogleVision(image) {
     ],
   };
 
-  const response = await fetch(API_URL, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body),
-  });
-  const result = await response.json();
-  console.log("callGoogleVision -> result", result);
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
 
-  const text = result.responses[0].fullTextAnnotation.text
-    .split("\n")
-    .join(" ");
-  return text;
+    const result = await response.json();
+    console.log("callGoogleVision -> result", result);
+
+    const text = result.responses[0].fullTextAnnotation.text
+      .split("\n")
+      .join(" ");
+    return text;
+  } catch (error) {
+    Alert.alert("Please try again");
+  }
 }
 
 export async function callGoogleTranslate(text, sourceLang, targetLang) {
@@ -101,23 +107,27 @@ export async function callGoogleLandmark(image) {
     ],
   };
 
-  const response = await fetch(API_URL, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body),
-  });
-  const result = await response.json();
-  console.log("callGoogleLandmark ===>", result);
-  const landmark = result.responses[0].landmarkAnnotations[0].description;
-  const latitude =
-    result.responses[0].landmarkAnnotations[0].locations[0].latLng.latitude;
-  const longitude =
-    result.responses[0].landmarkAnnotations[0].locations[0].latLng.longitude;
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+    const result = await response.json();
+    console.log("callGoogleLandmark ===>", result);
+    const landmark = result.responses[0].landmarkAnnotations[0].description;
+    const latitude =
+      result.responses[0].landmarkAnnotations[0].locations[0].latLng.latitude;
+    const longitude =
+      result.responses[0].landmarkAnnotations[0].locations[0].latLng.longitude;
 
-  return { landmark, latitude, longitude };
+    return { landmark, latitude, longitude };
+  } catch (error) {
+    Alert.alert("Please try again");
+  }
 }
 
 export async function callGoogleObject(image) {
@@ -138,16 +148,20 @@ export async function callGoogleObject(image) {
     ],
   };
 
-  const response = await fetch(API_URL, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body),
-  });
-  const result = await response.json();
-  console.log("callGoogleObject ===>", result);
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+    const result = await response.json();
+    console.log("callGoogleObject ===>", result);
 
-  return result.responses[0].localizedObjectAnnotations[0].name;
+    return result.responses[0].localizedObjectAnnotations[0].name;
+  } catch (error) {
+    Alert.alert("Please try again");
+  }
 }

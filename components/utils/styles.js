@@ -16,10 +16,10 @@ const Styles = StyleSheet.create({
     backgroundColor: "white",
   },
   imageContainer: {
-    flex: 0.45,
+    flex: 0.42,
   },
   contentContainer: {
-    flex: 0.55,
+    flex: 0.58,
   },
 
   image: {
@@ -52,7 +52,9 @@ const Styles = StyleSheet.create({
 
   textOverImageLandmark: {
     color: "white",
-    fontSize: 40,
+    fontSize: 32,
+    flex: 0.9,
+    flexWrap: "wrap",
   },
 
   landmarkImageTopText: {
@@ -63,7 +65,7 @@ const Styles = StyleSheet.create({
     backgroundColor: "#000000a0",
     paddingLeft: 8,
     paddingTop: 8,
-    paddingBottom: 10,
+    paddingBottom: 16,
   },
 
   translationsTopRow: {
@@ -80,6 +82,23 @@ const Styles = StyleSheet.create({
     paddingBottom: 58,
     alignItems: "center",
     justifyContent: "center",
+  },
+
+  originalTextTranslation: {
+    height: 100,
+    marginTop: 4,
+    paddingTop: 4,
+    marginBottom: 10,
+    borderTopColor: "#ebecf0",
+    borderTopWidth: 1,
+  },
+  translatedTextTranslation: {
+    height: 120,
+    marginTop: 4,
+    paddingTop: 4,
+    marginBottom: 16,
+    borderTopColor: "#ebecf0",
+    borderTopWidth: 1,
   },
 });
 

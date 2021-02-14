@@ -25,6 +25,7 @@ function LandmarkScreen(props) {
               <Text style={Styles.textOverImageLandmark}>{sourceLandmark}</Text>
               <PlayTextToSpeech text={sourceLandmark} language={sourceLang} />
             </View>
+
             <View style={{ flexDirection: "row" }}>
               <Text style={{ color: "white" }}>
                 {" "}
@@ -36,9 +37,11 @@ function LandmarkScreen(props) {
               </Text>
             </View>
           </View>
+
           <View style={Styles.landmarkImageBottomText}>
             <View style={Styles.translationsTopRow}>
               <Text style={Styles.textOverImageLandmark}>{targetLandmark}</Text>
+
               <PlayTextToSpeech text={targetLandmark} language={targetLang} />
             </View>
           </View>
