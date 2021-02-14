@@ -2,10 +2,23 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { GoToButton } from "../components/utils";
+import * as ImagePicker from "expo-image-picker";
 
 function Home() {
   const navigation = useNavigation();
+  const [permissions, setPermissions] = React.useState(false);
+
+  const askPermissionsAsync = async () => {
+    let permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+    if (permissionResult.granted === false) {
+      alert("Permission to access camera roll is required!");
+      return;
+    }
+  };
+
+  if (!permissions) {
+    askPermissionsAsync();
+  }
   return (
     <View style={styles.container}>
       <Feather

@@ -1,11 +1,12 @@
 import * as ImagePicker from "expo-image-picker";
 import React from "react";
-import { Button, Image, StyleSheet, Text, View } from "react-native";
+import { Button, View } from "react-native";
 import { connect } from "react-redux";
 import { setTranslation } from "../store/text";
 import { addToRecents } from "../store/recentTranslations";
 import { callGoogleObject, callGoogleTranslate } from "./google";
 import { Styles } from "./utils";
+import { ActivityIndicator } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 
 function ObjectCamera(props) {
@@ -27,6 +28,10 @@ function ObjectCamera(props) {
       try {
         const { sourceLang, targetLang, addToRecentTranslations } = props;
         let sourceObject = await callGoogleObject(base64);
+        if (sourceObject === undefined) {
+          setStatus(null);
+          return null;
+        }
         if (sourceLang !== "en") {
           sourceObject = await callGoogleTranslate(
             objectFromImage,
@@ -53,13 +58,13 @@ function ObjectCamera(props) {
         setSource(sourceObject);
         setTarget(targetObject);
         setStatus("Done");
-        navigation.navigate("ObjectScreen" , {
-          sourceObj : sourceObject , 
-          targetObj : targetObject ,
-          image : uri ,
-          sourceLang : sourceLang , 
-          targetLang : targetLang
-        }) 
+        navigation.navigate("ObjectScreen", {
+          sourceObj: sourceObject,
+          targetObj: targetObject,
+          image: uri,
+          sourceLang: sourceLang,
+          targetLang: targetLang,
+        });
       } catch (error) {
         setStatus(`Error: ${error.message}`);
       }
@@ -74,7 +79,7 @@ function ObjectCamera(props) {
   if (status === "Loading...")
     return (
       <View style={Styles.container}>
-        <Text style={Styles.title}>Finding Object...</Text>
+        <ActivityIndicator animating={true} color={"#418fde"} size="large" />
       </View>
     );
   else if (status === "Done" && sourceObj && targetObj) {
@@ -82,11 +87,9 @@ function ObjectCamera(props) {
     setStatus(null);
     setSource(null);
     setTarget(null);
-  }
-  else
+  } else
     return (
       <View style={Styles.container}>
-        {image && <Image style={Styles.image} source={{ uri: image }} />}
         <Button onPress={takePictureAsync} title="Identify Object" />
       </View>
     );

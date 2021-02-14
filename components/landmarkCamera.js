@@ -6,6 +6,7 @@ import { setTranslation } from "../store/text";
 import { callGoogleLandmark, callGoogleTranslate } from "./google";
 import { addToRecents } from "../store/recentTranslations";
 import LandmarkScreen from "./landmarkScreen";
+import { ActivityIndicator } from "react-native-paper";
 import { Styles } from "./utils";
 import { useNavigation } from "@react-navigation/native";
 
@@ -32,7 +33,9 @@ function LandmarkCamera(props) {
         let { landmark, latitude, longitude } = await callGoogleLandmark(
           base64
         );
+        console.log("THIS IS THE LANDMARK PROP AFTER CALL --->", landmark);
         let sourceLandmark = landmark;
+
         if (sourceLang !== "en") {
           sourceLandmark = await callGoogleTranslate(
             landmark,
@@ -62,15 +65,15 @@ function LandmarkCamera(props) {
         setLatitude(latitude);
         setLongitude(longitude);
         setStatus("Done");
-        navigation.navigate("LandmarkScreen" , {
-          sourceLandmark : sourceLandmark , 
-          targetLandmark : targetLandmark , 
-          latitude : latitude ,
-          longitude : longitude ,
-          image : uri , 
-          sourceLang : props.sourceLang ,
-          targetLang : props.targetLang 
-        }) ; 
+        navigation.navigate("LandmarkScreen", {
+          sourceLandmark: sourceLandmark,
+          targetLandmark: targetLandmark,
+          latitude: latitude,
+          longitude: longitude,
+          image: uri,
+          sourceLang: props.sourceLang,
+          targetLang: props.targetLang,
+        });
       } catch (error) {
         setStatus(`Error: ${error.message}`);
       }
@@ -87,7 +90,7 @@ function LandmarkCamera(props) {
   if (status === "Loading...")
     return (
       <View style={Styles.container}>
-        <Text style={Styles.title}>Finding Landmark...</Text>
+        <ActivityIndicator animating={true} color={"#418fde"} size="large" />
       </View>
     );
   else if (
@@ -97,17 +100,15 @@ function LandmarkCamera(props) {
     latitude &&
     longitude
   ) {
-  setImage(null);
-  setStatus(null);
-  setSource(null);
-  setTarget(null);
-  setLatitude(null);
-  setLongitude(null);
-  }
-  else
+    setImage(null);
+    setStatus(null);
+    setSource(null);
+    setTarget(null);
+    setLatitude(null);
+    setLongitude(null);
+  } else
     return (
       <View style={Styles.container}>
-        {image && <Image style={Styles.image} source={{ uri: image }} />}
         <Button onPress={takePictureAsync} title="Take a Picture" />
       </View>
     );

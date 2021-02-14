@@ -1,53 +1,62 @@
 import React from "react";
 import { connect } from "react-redux";
-import { View, Text, TouchableOpacity, Image } from "react-native";
-import { GoToButton, createFlashcard, Styles } from "./utils";
+import { View, Text, SafeAreaView, ImageBackground } from "react-native";
+import { GoToButton, MakeFlashcard, Styles, PlayTextToSpeech } from "./utils";
 import LandmarkMap from "./landmarkMap";
-import TextToSpeech from './textToSpeech'
 
 function LandmarkScreen(props) {
   let {
-    sourceLang, 
-    targetLang ,
+    sourceLang,
+    targetLang,
     sourceLandmark,
     targetLandmark,
     latitude,
     longitude,
-    image } = props.route.params ; 
-    let {translationData} = props
+    image,
+  } = props.route.params;
+  let { translationData } = props;
 
   return (
-    <View style={Styles.container}>
-      <Text style={Styles.title}>{sourceLandmark}</Text>
-      <Image
-        style={Styles.image}
-        source={{
-          uri: image,
-        }}
-      />
-      <Text style={Styles.title}>
-        {targetLandmark} {"\n"}
-      </Text>
-      <Text style={Styles.title}>
-        Latitude: {latitude.toFixed(5)} {"\n"}
-        Longitude: {longitude.toFixed(5)} {"\n"}
-      </Text>
-      <LandmarkMap latitude={latitude} longitude={longitude} />
+    <SafeAreaView style={Styles.resultContainer}>
+      <View style={Styles.landMarkImageContainer}>
+        <ImageBackground style={Styles.landmarkImage} source={{ uri: image }}>
+          <View style={Styles.landmarkImageTopText}>
+            <View style={Styles.translationsTopRow}>
+              <Text style={Styles.textOverImageLandmark}>{sourceLandmark}</Text>
+              <PlayTextToSpeech text={sourceLandmark} language={sourceLang} />
+            </View>
 
-      <GoToButton screenName="LandmarkCamera" />
-      <GoToButton screenName="Home" />
-      <View>
-        <TouchableOpacity
-          onPress={() => {
-            createFlashcard(translationData);
-          }}
-        >
-          <Text>MAKE FLASHCARD</Text>
-        </TouchableOpacity>
-        <TextToSpeech originalText={sourceLandmark} translatedText={targetLandmark} 
-          sourceLang={sourceLang} targetLang={targetLang} />
+            <View style={{ flexDirection: "row" }}>
+              <Text style={{ color: "white" }}>
+                {" "}
+                Latitude: {latitude.toFixed(5)}{" "}
+              </Text>
+              <Text style={{ color: "white" }}>
+                {" "}
+                Longitude: {longitude.toFixed(5)}{" "}
+              </Text>
+            </View>
+          </View>
+
+          <View style={Styles.landmarkImageBottomText}>
+            <View style={Styles.translationsTopRow}>
+              <Text style={Styles.textOverImageLandmark}>{targetLandmark}</Text>
+
+              <PlayTextToSpeech text={targetLandmark} language={targetLang} />
+            </View>
+          </View>
+        </ImageBackground>
       </View>
-    </View>
+
+      <View style={Styles.landMarkContentContainer}>
+        <LandmarkMap latitude={latitude} longitude={longitude} />
+
+        <View style={Styles.translatedTextBottom}>
+          <MakeFlashcard mode="contained" data={translationData} />
+          <GoToButton screenName="Home" icon="home-outline" />
+        </View>
+      </View>
+    </SafeAreaView>
   );
 }
 

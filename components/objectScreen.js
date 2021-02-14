@@ -1,39 +1,66 @@
 import React from "react";
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, ImageBackground, SafeAreaView } from "react-native";
+import { Divider, Paragraph } from "react-native-paper";
 import { connect } from "react-redux";
-import TextToSpeech from './textToSpeech'
-import { GoToButton, createFlashcard, Styles } from "./utils";
+import {
+  GoToButton,
+  Styles,
+  Card,
+  MakeFlashcard,
+  PlayTextToSpeech,
+} from "./utils";
 
 function ObjectScreen(props) {
-  let {  translationData } = props;
-  let {sourceObj, targetObj, image, sourceLang, targetLang} = props.route.params ; 
-  
+  let { translationData } = props;
+  let {
+    sourceObj,
+    targetObj,
+    image,
+    sourceLang,
+    targetLang,
+  } = props.route.params;
+
   console.log("route.params in ObjectScreen", props.route.params);
 
   return (
-    <View style={Styles.container}>
-      <Text style={Styles.title}> {sourceObj}</Text>
-      <Image
-        style={Styles.image}
-        source={{
-          uri: image,
-        }}
-      />
-      <Text style={Styles.title}> {targetObj}</Text>
-      <GoToButton screenName="ObjectCamera" />
-      <GoToButton screenName="Home" />
-      <View>
-        <TouchableOpacity
-          onPress={() => {
-            createFlashcard(translationData);
-          }}
-        >
-          <Text>MAKE FLASHCARD</Text>
-        </TouchableOpacity>
-        <TextToSpeech originalText={sourceObj} translatedText={targetObj} 
-          sourceLang={sourceLang} targetLang={targetLang} />
+    <SafeAreaView style={Styles.resultContainer}>
+      <View style={Styles.imageContainer}>
+        <ImageBackground style={Styles.image} source={{ uri: image }}>
+          <Text style={Styles.textOverImage}>{sourceObj}</Text>
+        </ImageBackground>
       </View>
-    </View>
+      <View style={Styles.contentContainer}>
+        <Card>
+          <View style={Styles.objectTextContainer}>
+            <Text style={{ fontSize: 40 }}>{targetObj}</Text>
+          </View>
+          <Divider />
+          <View style={Styles.translationsTopRow}>
+            <View style={Styles.translatedTextBottom}>
+              <PlayTextToSpeech
+                text={sourceObj}
+                language={sourceLang}
+                innerText="Object"
+              />
+            </View>
+
+            <View style={Styles.translatedTextBottom}>
+              <PlayTextToSpeech
+                text={targetObj}
+                language={targetLang}
+                innerText="Translation"
+              />
+            </View>
+          </View>
+        </Card>
+        <View style={Styles.translatedTextBottom}>
+          <MakeFlashcard mode="contained" data={translationData} />
+          <GoToButton screenName="Home" icon="home-outline" />
+        </View>
+      </View>
+
+      <View></View>
+    </SafeAreaView>
   );
 }
 
