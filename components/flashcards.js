@@ -8,7 +8,8 @@ import {
   Button,
 } from "react-native";
 import { db } from "../db/index";
-import { Flashcard } from "./utils";
+import { Flashcard, Card } from "./utils";
+
 function Items(props) {
   const [items, setItems] = React.useState(null);
   const { onPressItem } = props;
@@ -28,18 +29,12 @@ function Items(props) {
   const orderedLatest = [...items].reverse();
   return (
     <View style={styles.sectionContainer}>
-      {orderedLatest.map((flashcard) => (
-        <View>
-          <Flashcard
-            flashcard={flashcard}
-            key={flashcard.id}
-            // onPressDelete={(id) => onPressItem(id)}
-          />
-          <Button
-            title="Delete card"
-            onPress={() => onPressItem(flashcard.id)}
-          />
-        </View>
+      {orderedLatest.map((flashcard, idx) => (
+        <Flashcard
+          flashcard={flashcard}
+          key={flashcard.id}
+          deleteItem={onPressItem}
+        />
       ))}
     </View>
   );
@@ -55,24 +50,6 @@ export default function Flashcards() {
       );
     });
   }, []);
-
-  const add = (text) => {
-    // is text empty?
-    if (text === null || text === "") {
-      return false;
-    }
-
-    db.transaction(
-      (tx) => {
-        tx.executeSql("insert into flashcards (input_text) values (?)", [text]);
-        tx.executeSql("select * from flashcards", [], (_, { rows }) =>
-          console.log(JSON.stringify(rows))
-        );
-      },
-      null,
-      forceUpdate
-    );
-  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -102,13 +79,16 @@ function useForceUpdate() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
+    backgroundColor: "#f0f0f0",
     flex: 1,
   },
   heading: {
+    color: "gray",
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: "300",
     textAlign: "center",
+    paddingTop: 8,
+    paddingBottom: 8,
   },
   flexRow: {
     flexDirection: "row",

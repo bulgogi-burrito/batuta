@@ -4,12 +4,17 @@ import {
   View,
   TextInput,
   StyleSheet,
-  Text,
   TouchableWithoutFeedback,
   Keyboard,
   SafeAreaView,
 } from "react-native";
-import { Subheading, Title, Caption, Divider } from "react-native-paper";
+import {
+  Subheading,
+  Title,
+  Caption,
+  Divider,
+  Button,
+} from "react-native-paper";
 import {
   Styles,
   Card,
@@ -65,18 +70,22 @@ function InputText(props) {
       <DismissKeyboard>
         <ScrollView>
           <View style={styles.card}>
-            <Title style={{ paddingLeft: 20, paddingTop: 8 }}>
-              {languages[sourceLang]}
-            </Title>
+            <View style={Styles.translationsTopRow}>
+              <Title style={{ paddingLeft: 20, paddingTop: 8 }}>
+                {languages[sourceLang]}
+              </Title>
+              <Button style={{ paddingTop: 8 }} icon="playlist-remove"></Button>
+            </View>
+
             <View style={styles.flexRow}>
               <TextInput
                 multiline={true}
                 onChangeText={(text) => setText(text)}
                 onSubmitEditing={() => {
-                  setText(null);
                   sumbit(text, sourceLang, targetLang);
+                  setText(null);
                 }}
-                placeholder="Translate some text"
+                placeholder="Type some text and hit enter to translate..."
                 style={styles.input}
                 value={text}
               />
@@ -104,8 +113,15 @@ function InputText(props) {
                 {translatedTextResult ? translatedTextResult : ""}
               </Subheading>
             </View>
-
-            <MakeFlashcard mode="contained" data={translationData} />
+            <View>
+              {translatedTextResult ? (
+                <MakeFlashcard mode="contained" data={translationData} />
+              ) : (
+                <Button icon="cards-outline" mode="outlined">
+                  Make Flashcard
+                </Button>
+              )}
+            </View>
           </Card>
         </ScrollView>
       </DismissKeyboard>

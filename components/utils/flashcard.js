@@ -1,110 +1,166 @@
 import React, { useState } from "react";
-import {
-  Text,
-  TouchableOpacity,
-  Image,
-  View,
-  StyleSheet,
-  Button,
-  Alert,
-} from "react-native";
-import { db } from "../../db";
+import { TouchableOpacity, Image, View, StyleSheet, Alert } from "react-native";
+// import Card from "./card"
 import PlayTextToSpeech from "./playTextToSpeech";
+import Styles from "./styles";
+import { Button, Subheading } from "react-native-paper";
 
 export default function Flashcard(props) {
   const [flip, setFlip] = useState(true);
-  const { flashcard, onPressDelete } = props;
-  // font has the input_content, input_text, maybe the language, - possibly an audio feature to speak the
-  // the language
-  // then on the otherside we want the translated_text and possibly an audio feature to speak
+  const { flashcard, deleteItem } = props;
+  // flashcard.content_type
 
+  const deletionAlert = (id) => {
+    Alert.alert(
+      "Delete Alert",
+      "Press OK to delete flashcard",
+      [
+        { text: "OK", onPress: () => deleteItem(id) },
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+      ],
+      { cancelable: false }
+    );
+  };
   return (
     <TouchableOpacity onPress={() => setFlip(!flip)}>
       {flip ? (
-        <View style={styles.card}>
-          <View style={styles.cardContent}>
-            <Image
-              style={styles.image}
-              source={{
-                uri: flashcard.input_content,
-              }}
-            />
-            <Text>{flashcard.input_text}</Text>
+        <View style={styles.front}>
+          <View style={Styles.translationsTopRow}>
+            <Button
+              icon="close"
+              mode="text"
+              color="red"
+              onPress={() => deletionAlert(flashcard.id)}
+            ></Button>
             <PlayTextToSpeech
               text={flashcard.input_text}
               language={flashcard.source_language}
             />
-            {/* <Button
-              title="Delete card"
-              onPress={() => onPressDelete(flashcard.id)}
-            /> */}
+          </View>
+
+          <View style={styles.cardContent}>
+            {flashcard.content_type == "image" ? (
+              <>
+                <View style={styles.imageContainer}>
+                  <Image
+                    style={styles.image}
+                    source={{
+                      uri: flashcard.input_content,
+                    }}
+                  />
+                </View>
+                <View style={styles.contentContainer}>
+                  <Subheading style={{ textAlign: "center" }}>
+                    {flashcard.input_text}
+                  </Subheading>
+                </View>
+              </>
+            ) : (
+              <View style={styles.contentContainer}>
+                <Subheading style={{ textAlign: "center" }}>
+                  {flashcard.input_text}
+                </Subheading>
+              </View>
+            )}
           </View>
         </View>
       ) : (
         <View style={styles.back}>
-          <View style={styles.cardContent}>
-            <Image
-              style={styles.image}
-              source={{
-                uri: flashcard.input_content,
-              }}
-            />
-            <Text>{flashcard.translated_text}</Text>
+          <View style={Styles.translationsTopRow}>
+            <Button
+              icon="close"
+              mode="text"
+              color="red"
+              onPress={() => deletionAlert(flashcard.id)}
+            ></Button>
             <PlayTextToSpeech
               text={flashcard.translated_text}
               language={flashcard.target_language}
             />
           </View>
+
+          <View style={styles.cardContent}>
+            {flashcard.content_type == "image" ? (
+              <>
+                <View style={styles.imageContainer}>
+                  <Image
+                    style={styles.image}
+                    source={{
+                      uri: flashcard.input_content,
+                    }}
+                  />
+                </View>
+
+                <View style={styles.contentContainer}>
+                  <Subheading style={{ textAlign: "center" }}>
+                    {flashcard.translated_text}
+                  </Subheading>
+                </View>
+              </>
+            ) : (
+              <View style={styles.contentContainer}>
+                <Subheading style={{ textAlign: "center" }}>
+                  {flashcard.translated_text}
+                </Subheading>
+              </View>
+            )}
+          </View>
         </View>
       )}
-      {/* <Button
-          onPress={(flashcard) => {
-            db.transaction(
-              (tx) => {
-                tx.executeSql(`delete from flashcards where id = ?;`, [
-                  flashcard.id,
-                ]);
-              },
-              null,
-              createAlert()
-            );
-          }}
-          title="Delete"
-          onPress={() => onPressItem && onPressItem(id)}
-        /> */}
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-  card: {
-    borderRadius: 6,
-    elevation: 3,
+  front: {
+    borderRadius: 8,
+    elevation: 4,
     backgroundColor: "#fff",
     shadowOffset: { width: 1, height: 1 },
     shadowColor: "#333",
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
+    shadowOpacity: 0.4,
+    shadowRadius: 3,
     marginHorizontal: 6,
-    marginVertical: 4,
-  },
-  cardContent: {
-    marginHorizontal: 18,
-    marginVertical: 10,
+    marginVertical: 8,
   },
   back: {
-    borderRadius: 6,
-    elevation: 3,
-    backgroundColor: "#C4C4C4",
+    borderRadius: 8,
+    elevation: 2,
+    backgroundColor: "#DCDCDC",
     shadowOffset: { width: 1.25, height: 1.25 },
     shadowColor: "#333",
     shadowOpacity: 0.3,
     shadowRadius: 2,
     marginHorizontal: 6,
-    marginVertical: 4,
+    marginVertical: 8,
   },
+  cardContent: {
+    marginVertical: 4,
+    paddingBottom: 24,
+    height: 300,
+  },
+
   image: {
-    width: 280,
-    height: 280,
+    height: "100%",
+    width: "55%",
+    resizeMode: "stretch",
+  },
+
+  imageContainer: {
+    backgroundColor: "#131313",
+    alignItems: "center",
+    flex: 2,
+    width: "100%",
+  },
+
+  contentContainer: {
+    flex: 1,
+    marginHorizontal: 18,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
