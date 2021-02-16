@@ -65,7 +65,7 @@ export default function App() {
             <Stack.Screen
               name="Camera"
               component={Camera}
-              options={{ headerBackTitle: "Home" }}
+              options={{ headerBackTitle: "Back" }}
             />
             <Stack.Screen name="Camera Options" component={CameraOptions} />
             <Stack.Screen
@@ -75,7 +75,14 @@ export default function App() {
               }}
               component={TranslatedText}
             />
-            <Stack.Screen name="LandmarkCamera" component={LandmarkCamera} />
+            <Stack.Screen
+              name="LandmarkCamera"
+              options={{
+                headerBackTitle: "Back",
+                headerTitle: () => <Title>Landmark Camera</Title>,
+              }}
+              component={LandmarkCamera}
+            />
             <Stack.Screen
               name="LandmarkScreen"
               options={{
@@ -88,6 +95,7 @@ export default function App() {
             <Stack.Screen
               name="ObjectCamera"
               options={{
+                headerBackTitle: "Back",
                 headerTitle: () => <Title>Object Camera</Title>,
               }}
               component={ObjectCamera}
@@ -95,6 +103,7 @@ export default function App() {
             <Stack.Screen
               name="ObjectScreen"
               options={{
+                headerBackTitle: "Back",
                 headerTitle: () => <Title>Object Detected</Title>,
               }}
               component={ObjectScreen}
