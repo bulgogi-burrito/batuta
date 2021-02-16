@@ -53,9 +53,9 @@ function LandmarkCamera(props) {
         const translationData = {
           content_type: "image",
           input_content: uri,
-          input_text: sourceLandmark, //might need to change
+          input_text: sourceLandmark,
           source_language: sourceLang,
-          translated_text: targetLandmark, //might need to change
+          translated_text: targetLandmark,
           target_language: targetLang,
         };
         await addToRecentTranslations(translationData);
