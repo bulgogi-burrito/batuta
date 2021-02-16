@@ -53,16 +53,16 @@ function RecentTranslations(props) {
                   language={item.target_language}
                 />
               </View>
-              <View style={{ marginTop: 10, marginBottom: 10 }}>
+              <View
+                style={{
+                  marginTop: 10,
+                  marginBottom: 10,
+                }}
+              >
                 <Subheading>{item.translated_text}</Subheading>
               </View>
-              {/* <Title>Title</Title>
-              <Subheading>Subheading</Subheading>
-              <Paragraph>Paragraph</Paragraph>
-              <Headline>Headline</Headline>
-              <Caption>Caption</Caption> */}
               <MakeFlashcard
-                mode="text"
+                mode="outlined"
                 data={{
                   content_type: item.content_type,
                   input_content: item.input_content,

@@ -31,9 +31,9 @@ const createFlashcard = (data) => {
           target_language,
         ]
       );
-      tx.executeSql("select * from flashcards", [], (_, { rows }) =>
-        console.log(JSON.stringify(rows))
-      );
+      // tx.executeSql("select * from flashcards", [], (_, { rows }) =>
+      //   console.log(JSON.stringify(rows))
+      // );
     },
     null,
     createAlert()

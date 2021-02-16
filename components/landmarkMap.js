@@ -1,6 +1,8 @@
 import React from "react";
-import { View, Button } from "react-native";
+import { View } from "react-native";
+import { Button } from "react-native-paper";
 import openMap from "react-native-open-maps";
+import { Styles } from "./utils";
 
 export default function LandmarkMap(props) {
   const goToLandmark = (provider) => {
@@ -12,15 +14,23 @@ export default function LandmarkMap(props) {
   };
 
   return (
-    <View>
-      <Button
-        onPress={() => goToLandmark("google")}
-        title="Open in Google Maps"
-      />
+    //translatedTextBottom { alignItems: "center" }
+    <View style={{ alignItems: "center", paddingVertical: 10 }}>
       <Button
         onPress={() => goToLandmark("apple")}
-        title="Open in Apple Maps"
-      />
+        mode="outlined"
+        icon="apple"
+        style={{ marginBottom: 8 }}
+      >
+        Open in Apple Maps
+      </Button>
+      <Button
+        onPress={() => goToLandmark("google")}
+        mode="outlined"
+        icon="google-maps"
+      >
+        Open in Google Maps
+      </Button>
     </View>
   );
 }

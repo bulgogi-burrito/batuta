@@ -6,7 +6,7 @@ import {
   Home,
   Camera,
   TranslatedText,
-  AudioRecording,
+  Text,
   LandmarkCamera,
   LandmarkScreen,
   LandmarkMap,
@@ -19,7 +19,12 @@ import {
 } from "./components";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
+import {
+  DefaultTheme,
+  Headline,
+  Provider as PaperProvider,
+  Title,
+} from "react-native-paper";
 const Stack = createStackNavigator();
 const theme = {
   ...DefaultTheme,
@@ -33,6 +38,7 @@ const theme = {
 };
 
 export default function App() {
+  // const navigation = useNavigation();
   return (
     <Provider store={store}>
       <PaperProvider theme={theme}>
@@ -41,17 +47,67 @@ export default function App() {
             screenOptions={{ headerStyle: { backgroundColor: "#d7837f" } }}
             initialRouteName="Home"
           >
-            <Stack.Screen name="Home" component={Home} />
-            <Stack.Screen name="Settings" component={Settings} />
-            <Stack.Screen name="Camera" component={Camera} />
+            <Stack.Screen
+              name="Home"
+              component={Home}
+              options={{
+                headerTitle: () => <Headline>b a t u t a</Headline>,
+              }}
+            />
+            <Stack.Screen
+              name="Settings"
+              component={Settings}
+              options={{
+                headerTitle: () => <Title>Settings</Title>,
+              }}
+              headerBackTitle="Back"
+            />
+            <Stack.Screen
+              name="Camera"
+              component={Camera}
+              options={{ headerBackTitle: "Back" }}
+            />
             <Stack.Screen name="Camera Options" component={CameraOptions} />
-            <Stack.Screen name="TranslatedText" component={TranslatedText} />
-            <Stack.Screen name="microphone" component={AudioRecording} />
-            <Stack.Screen name="LandmarkCamera" component={LandmarkCamera} />
-            <Stack.Screen name="LandmarkScreen" component={LandmarkScreen} />
+            <Stack.Screen
+              name="TranslatedText"
+              options={{
+                headerTitle: () => <Title>Translated Text</Title>,
+              }}
+              component={TranslatedText}
+            />
+            <Stack.Screen
+              name="LandmarkCamera"
+              options={{
+                headerBackTitle: "Back",
+                headerTitle: () => <Title>Landmark Camera</Title>,
+              }}
+              component={LandmarkCamera}
+            />
+            <Stack.Screen
+              name="LandmarkScreen"
+              options={{
+                headerBackTitle: "Back",
+                headerTitle: () => <Title>Landmark Detected</Title>,
+              }}
+              component={LandmarkScreen}
+            />
             <Stack.Screen name="LandmarkMap" component={LandmarkMap} />
-            <Stack.Screen name="ObjectCamera" component={ObjectCamera} />
-            <Stack.Screen name="ObjectScreen" component={ObjectScreen} />
+            <Stack.Screen
+              name="ObjectCamera"
+              options={{
+                headerBackTitle: "Back",
+                headerTitle: () => <Title>Object Camera</Title>,
+              }}
+              component={ObjectCamera}
+            />
+            <Stack.Screen
+              name="ObjectScreen"
+              options={{
+                headerBackTitle: "Back",
+                headerTitle: () => <Title>Object Detected</Title>,
+              }}
+              component={ObjectScreen}
+            />
             <Stack.Screen name="Recents" component={RecentTranslations} />
             <Stack.Screen name="Flashcards" component={Flashcards} />
             <Stack.Screen name="Translate Text" component={InputText} />

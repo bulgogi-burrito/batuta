@@ -8,7 +8,7 @@ import {
   Card,
   PlayTextToSpeech,
 } from "./utils";
-import { Title, Subheading, Divider } from "react-native-paper";
+import { Title, Subheading } from "react-native-paper";
 
 function TranslatedText(props) {
   let { originalText, translatedText, translationData } = props;

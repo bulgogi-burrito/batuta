@@ -2,13 +2,17 @@ import React from "react";
 import { Picker } from "@react-native-picker/picker";
 
 const setLanguage = (props) => {
-  const { initialValue, selectedValue ,changeLang } = props;
+  const { initialValue, selectedValue, changeLang } = props;
   return (
     <Picker
       initialValue={initialValue}
       selectedValue={selectedValue}
       onValueChange={changeLang}
-      style={{ width: "100%" }}
+      style={{
+        width: "100%",
+        borderColor: "#ebecf0",
+        borderWidth: 0.3,
+      }}
     >
       <Picker.Item label="Afrikaans" value="af" />
       <Picker.Item label="Albanian" value="sq" />
