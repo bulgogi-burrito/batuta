@@ -34,7 +34,7 @@ function ObjectCamera(props) {
         }
         if (sourceLang !== "en") {
           sourceObject = await callGoogleTranslate(
-            objectFromImage,
+            sourceObject,
             "en",
             sourceLang
           );
