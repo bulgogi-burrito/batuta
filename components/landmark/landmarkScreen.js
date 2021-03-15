@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { View, Text, SafeAreaView, ImageBackground } from "react-native";
-import { GoToButton, MakeFlashcard, Styles, PlayTextToSpeech } from "./utils";
+import { GoToButton, MakeFlashcard, Styles, PlayTextToSpeech } from "../utils";
 import LandmarkMap from "./landmarkMap";
 
 function LandmarkScreen(props) {

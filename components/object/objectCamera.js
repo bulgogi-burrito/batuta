@@ -2,10 +2,9 @@ import * as ImagePicker from "expo-image-picker";
 import React from "react";
 import { Button, View } from "react-native";
 import { connect } from "react-redux";
-import { setTranslation } from "../store/text";
-import { addToRecents } from "../store/recentTranslations";
-import { callGoogleObject, callGoogleTranslate } from "./google";
-import { Styles } from "./utils";
+import { addToRecents } from "../../store/recentTranslations";
+import { callGoogleObject, callGoogleTranslate } from "../google";
+import { Styles } from "../utils";
 import { ActivityIndicator } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 

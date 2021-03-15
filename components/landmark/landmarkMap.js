@@ -2,7 +2,6 @@ import React from "react";
 import { View } from "react-native";
 import { Button } from "react-native-paper";
 import openMap from "react-native-open-maps";
-import { Styles } from "./utils";
 
 export default function LandmarkMap(props) {
   const goToLandmark = (provider) => {

@@ -8,7 +8,7 @@ import {
   Card,
   MakeFlashcard,
   PlayTextToSpeech,
-} from "./utils";
+} from "../utils";
 
 function ObjectScreen(props) {
   let { translationData } = props;

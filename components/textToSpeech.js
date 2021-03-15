@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { View, StyleSheet, Button,Text } from 'react-native';
+import { View, Button } from 'react-native';
 import * as Speech from 'expo-speech';
 
 export default function TextToSpeech (props) {
-    const {originalText , sourceLang ,translatedText, targetLang} = props ; 
+    const {originalText , sourceLang ,translatedText, targetLang} = props ;
     console.log('translation language inside TextToSpeech' , targetLang) ;
     console.log('source language inside TextToSpeech' , sourceLang) ;
     console.log('originalText inside TextToSpeech' , originalText) ;
@@ -12,10 +12,10 @@ export default function TextToSpeech (props) {
       return (
         <View>
           <Button title={'say original'} onPress={() => Speech.speak(originalText ,
-                {language: sourceLang } 
+                {language: sourceLang }
                 )} />
           <Button title={'say Translation'} onPress={() => Speech.speak(translatedText ,
-                {language: targetLang } 
+                {language: targetLang }
                 )} />
         </View>
       );

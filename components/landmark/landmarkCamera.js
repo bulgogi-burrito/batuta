@@ -1,13 +1,12 @@
 import * as ImagePicker from "expo-image-picker";
 import React from "react";
-import { Button, Image, Text, View } from "react-native";
+import { Button, View } from "react-native";
 import { connect } from "react-redux";
-import { setTranslation } from "../store/text";
-import { callGoogleLandmark, callGoogleTranslate } from "./google";
-import { addToRecents } from "../store/recentTranslations";
-import LandmarkScreen from "./landmarkScreen";
+import { setTranslation } from "../../store/text";
+import { callGoogleLandmark, callGoogleTranslate } from "../google";
+import { addToRecents } from "../../store/recentTranslations";
 import { ActivityIndicator } from "react-native-paper";
-import { Styles } from "./utils";
+import { Styles } from "../utils";
 import { useNavigation } from "@react-navigation/native";
 
 function LandmarkCamera(props) {

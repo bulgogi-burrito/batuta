@@ -3,7 +3,7 @@ import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { Foundation, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { Title } from "react-native-paper";
-import { Styles } from "./utils";
+import { Styles } from "../utils";
 
 function CameraOptions() {
   const navigation = useNavigation();

@@ -1,10 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 import { View } from "react-native";
-import { changeSourceLang, changeTargetLang } from "../store/settings";
+import { changeSourceLang, changeTargetLang } from "../../store/settings";
 import SetLanguage from "./setLanguage";
 import { Entypo } from "@expo/vector-icons";
-import { Styles } from "./utils";
+import { Styles } from "../utils";
 
 class Settings extends React.Component {
   render() {

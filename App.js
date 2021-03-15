@@ -6,7 +6,6 @@ import {
   Home,
   Camera,
   TranslatedText,
-  Text,
   LandmarkCamera,
   LandmarkScreen,
   LandmarkMap,
@@ -38,7 +37,6 @@ const theme = {
 };
 
 export default function App() {
-  // const navigation = useNavigation();
   return (
     <Provider store={store}>
       <PaperProvider theme={theme}>
