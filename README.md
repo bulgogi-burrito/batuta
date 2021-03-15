@@ -13,4 +13,6 @@ Expo, JavaScript, Redux, React-Native, React-Native-Paper, and SQLite.
 
 https://youtu.be/3ypNHNpK2L8
 
+<img width="300" height="600" alt="Screen Shot 2021-03-15 at 3 22 33 AM" src="https://user-images.githubusercontent.com/61565989/111117347-c9331700-853d-11eb-86e3-aba53d375c41.png">
+
 <img width="300" height="600" alt="Screen Shot 2021-03-15 at 3 17 00 AM" src="https://user-images.githubusercontent.com/61565989/111116873-064ad980-853d-11eb-841a-f29ac74e3bcb.png">
