@@ -2,10 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import {
   SafeAreaView,
-  Text,
   FlatList,
   TouchableOpacity,
-  StyleSheet,
   View,
 } from "react-native";
 import {
@@ -16,10 +14,7 @@ import {
   Styles,
 } from "./utils";
 import {
-  Title,
   Subheading,
-  Paragraph,
-  Headline,
   Caption,
   Divider,
 } from "react-native-paper";

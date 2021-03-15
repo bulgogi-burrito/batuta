@@ -5,7 +5,6 @@ import {
   Text,
   View,
   SafeAreaView,
-  Button,
 } from "react-native";
 import { db } from "../db/index";
 import { Flashcard, Card } from "./utils";

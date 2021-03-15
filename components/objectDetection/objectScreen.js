@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, ImageBackground, SafeAreaView } from "react-native";
-import { Divider, Paragraph } from "react-native-paper";
+import { Divider } from "react-native-paper";
 import { connect } from "react-redux";
 import {
   GoToButton,
