@@ -11,3 +11,5 @@ https://en.wikipedia.org/wiki/Ibn_Battuta
 # Technologies
 Expo, JavaScript, Redux, React-Native, React-Native-Paper, and SQLite.
 
+https://youtu.be/3ypNHNpK2L8
+
